@@ -10,10 +10,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
 
 public class Server {
+
+    private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
 
     public static void main(String[] args) {
         new Server().start(9000);
@@ -42,7 +46,8 @@ public class Server {
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            System.out.println("Server started.");
+//            System.out.println("Server started.");
+            LOGGER.info("Server started");
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
