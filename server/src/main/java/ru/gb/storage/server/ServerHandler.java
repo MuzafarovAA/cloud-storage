@@ -25,6 +25,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
         if (msg instanceof RegistrationMessage) {
             RegistrationMessage message = (RegistrationMessage) msg;
             //TODO регистрация пользователя в БД
+
         }
         if (msg instanceof StorageUpdateMessage) {
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
@@ -40,6 +41,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
         }
         if (msg instanceof StorageFileDownloadMessage) {
             StorageFileDownloadMessage message = (StorageFileDownloadMessage) msg;
+            LOGGER.info("File request message received of File: " + message.getPath());
             //TODO запрос загрузки файла с хранилища
         }
 
