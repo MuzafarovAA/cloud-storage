@@ -9,7 +9,7 @@ import ru.gb.storage.commons.message.*;
 public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
-    //TODO логгирование
+    //TODO логгирование уровня INFO сделать из класса ServerHandler, не AuthService. AuthService сделать только логгирование уровня ERROR
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
@@ -18,13 +18,58 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             System.out.println("Received TextMessage: " + message.getText());
             ctx.writeAndFlush(msg);
         }
-        if (msg instanceof AuthMessage) {
-            AuthMessage message = (AuthMessage) msg;
-            //TODO авторизация пользователя через БД
+        if (msg instanceof AuthRequestMessage) {
+            LOGGER.info("Received new AuthMessage.");
+            AuthRequestMessage message = (AuthRequestMessage) msg;
+            String login = message.getLogin();
+            String password = message.getPassword();
+            message.getPassword();
+            AuthService authService = new AuthService();
+            authService.connectToDatabase();
+            AuthErrorMessage authErrorMessage = null;
+            if (authService.checkLogin(login)) {
+                if (authService.checkPassword(login, password)) {
+                    AuthOkMessage authOkMessage = new AuthOkMessage(login);
+                    ctx.writeAndFlush(authOkMessage);
+                    LOGGER.info("Successful authentication. Login: " + login);
+                } else {
+                    authErrorMessage.setLoginError(true);
+                    authErrorMessage.setPasswordError(false);
+                    ctx.writeAndFlush(authErrorMessage);
+                    LOGGER.info("Authentication failed. Incorrect password. Login: " + login);
+                }
+            } else {
+                authErrorMessage.setLoginError(false);
+                ctx.writeAndFlush(authErrorMessage);
+                LOGGER.info("Authentication failed. Incorrect login: " + login);
+            }
+            authService.disconnectFromDatabase();
+
+            //TODO проверить авторизацию пользователя через БД
+
         }
-        if (msg instanceof RegistrationMessage) {
-            RegistrationMessage message = (RegistrationMessage) msg;
-            //TODO регистрация пользователя в БД
+        if (msg instanceof AuthRegisterMessage) {
+            LOGGER.info("Received new AuthRegisterMessage");
+            AuthRegisterMessage message = (AuthRegisterMessage) msg;
+            String login = message.getLogin();
+            String password = message.getPassword();
+            AuthService authService = new AuthService();
+            authService.connectToDatabase();
+            AuthErrorMessage authErrorMessage = null;
+            if (!authService.checkLogin(login)) {
+                if (authService.registerUser(login, password)) {
+                    AuthOkMessage authOkMessage = new AuthOkMessage(login);
+                    ctx.writeAndFlush(authOkMessage);
+                    LOGGER.info("Registered new user. Login: " + login);
+                }
+            } else {
+                authErrorMessage.setLoginError(true);
+                ctx.writeAndFlush(authErrorMessage);
+                LOGGER.info("Registering new user failed. Login is already exist: " + login);
+            }
+            authService.disconnectFromDatabase();
+
+            //TODO проверить регистрацию пользователя в БД
 
         }
         if (msg instanceof StorageUpdateMessage) {

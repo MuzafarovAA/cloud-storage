@@ -48,7 +48,6 @@ public class AuthService {
             LOGGER.error("SQL Exception during login verification.");
             e.printStackTrace();
         }
-        LOGGER.info("Wrong username.");
         return false;
     }
 
@@ -64,11 +63,10 @@ public class AuthService {
             LOGGER.error("SQL Exception during password verification.");
             e.printStackTrace();
         }
-        LOGGER.info("Wrong password.");
         return false;
     }
 
-    public boolean registrationUser(String login, String password) {
+    public boolean registerUser(String login, String password) {
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO userlist (login, password) VALUES (?, ?)");
             preparedStatement.setString(1, login);
