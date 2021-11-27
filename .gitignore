@@ -15,3 +15,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .mvn
+
+#Temp
+/clientOld/
+
+.fxml
+AuthController.java
+ClientController.java
+RegController.java
+ClientApp.java
