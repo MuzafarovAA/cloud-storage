@@ -6,6 +6,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.gb.storage.commons.message.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
@@ -67,12 +76,15 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             }
             authService.disconnectFromDatabase();
 
-            //TODO проверить регистрацию пользователя в БД
-
         }
         if (msg instanceof StorageUpdateMessage) {
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
-            //TODO получение/обновление списка файлов хранилища
+            String login = message.getLogin();
+            ArrayList<String> files = getFileList(login);
+            StorageFileListMessage messageOutput = new StorageFileListMessage();
+            messageOutput.setFiles(files);
+            ctx.writeAndFlush(messageOutput);
+
         }
         if (msg instanceof StorageFileAddMessage) {
             StorageFileAddMessage message = (StorageFileAddMessage) msg;
@@ -89,6 +101,42 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
         }
 
 
+
+
+        }
+
+
+
+
+
+
+    private ArrayList<String> getFileList(String login) throws IOException {
+        ArrayList<String> files = new ArrayList<>();
+        Path path = Path.of("server/cloud-storage/" + login);
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectory(path);
+            } catch (IOException e) {
+                LOGGER.error("Error while creating directory at cloud storage: " + path); //TODO проверить что выдает при ошибке
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+                        @Override
+                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                            files.add(path.relativize(file).toString());
+                            return FileVisitResult.CONTINUE;
+                        }
+                    });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return files;
     }
 
     @Override

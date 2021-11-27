@@ -5,6 +5,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import ru.gb.storage.commons.message.*;
 
 import java.io.RandomAccessFile;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Message> {
     @Override
@@ -23,13 +25,11 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
         }
         if (msg instanceof FileEndMessage) {
             System.out.println("Received file from server.");
-            ctx.close();
         }
 
         if (msg instanceof AuthOkMessage) {
             AuthOkMessage message = (AuthOkMessage) msg;
             System.out.println("Auth Ok received. Login: " + message.getLogin());
-            ctx.close();
         }
 
         if (msg instanceof AuthErrorMessage) {
@@ -41,7 +41,18 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
             }
             ctx.close();
         }
+
+        if (msg instanceof StorageFileListMessage) {
+            StorageFileListMessage message = (StorageFileListMessage) msg;
+            ArrayList<String> files = message.getFiles();
+            System.out.println("Files in storage:");
+            for (int i = 0; i < files.size(); i++) {
+                System.out.println(files.get(i));
+            }
+
+        }
     }
+
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
