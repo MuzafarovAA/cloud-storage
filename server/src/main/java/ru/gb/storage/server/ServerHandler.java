@@ -26,26 +26,24 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             message.getPassword();
             AuthService authService = new AuthService();
             authService.connectToDatabase();
-            AuthErrorMessage authErrorMessage = null;
+            AuthErrorMessage authErrorMessage = new AuthErrorMessage();
             if (authService.checkLogin(login)) {
                 if (authService.checkPassword(login, password)) {
                     AuthOkMessage authOkMessage = new AuthOkMessage(login);
                     ctx.writeAndFlush(authOkMessage);
                     LOGGER.info("Successful authentication. Login: " + login);
                 } else {
-                    authErrorMessage.setLoginError(true);
-                    authErrorMessage.setPasswordError(false);
+                    authErrorMessage.setLoginError(false);
+                    authErrorMessage.setPasswordError(true);
                     ctx.writeAndFlush(authErrorMessage);
                     LOGGER.info("Authentication failed. Incorrect password. Login: " + login);
                 }
             } else {
-                authErrorMessage.setLoginError(false);
+                authErrorMessage.setLoginError(true);
                 ctx.writeAndFlush(authErrorMessage);
                 LOGGER.info("Authentication failed. Incorrect login: " + login);
             }
             authService.disconnectFromDatabase();
-
-            //TODO проверить авторизацию пользователя через БД
 
         }
         if (msg instanceof AuthRegisterMessage) {
@@ -55,7 +53,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             String password = message.getPassword();
             AuthService authService = new AuthService();
             authService.connectToDatabase();
-            AuthErrorMessage authErrorMessage = null;
+            AuthErrorMessage authErrorMessage = new AuthErrorMessage();
             if (!authService.checkLogin(login)) {
                 if (authService.registerUser(login, password)) {
                     AuthOkMessage authOkMessage = new AuthOkMessage(login);

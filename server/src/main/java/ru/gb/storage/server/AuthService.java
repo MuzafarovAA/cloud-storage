@@ -7,7 +7,7 @@ import java.sql.*;
 
 public class AuthService {
 
-    private static final String DB_URL = "jdbc:sqlite:/userlist.db";
+    private static final String DB_URL = "jdbc:sqlite:userlist.db";
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
     private static Connection connection;
     private static PreparedStatement preparedStatement;

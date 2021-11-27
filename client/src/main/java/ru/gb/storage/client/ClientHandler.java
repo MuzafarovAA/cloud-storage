@@ -2,10 +2,7 @@ package ru.gb.storage.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import ru.gb.storage.commons.message.FileEndMessage;
-import ru.gb.storage.commons.message.FileMessage;
-import ru.gb.storage.commons.message.Message;
-import ru.gb.storage.commons.message.TextMessage;
+import ru.gb.storage.commons.message.*;
 
 import java.io.RandomAccessFile;
 
@@ -26,6 +23,22 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
         }
         if (msg instanceof FileEndMessage) {
             System.out.println("Received file from server.");
+            ctx.close();
+        }
+
+        if (msg instanceof AuthOkMessage) {
+            AuthOkMessage message = (AuthOkMessage) msg;
+            System.out.println("Auth Ok received. Login: " + message.getLogin());
+            ctx.close();
+        }
+
+        if (msg instanceof AuthErrorMessage) {
+            AuthErrorMessage message = (AuthErrorMessage) msg;
+            if (message.isLoginError()) {
+                System.out.println("Wrong login.");
+            } else if (message.isPasswordError()) {
+                System.out.println("Wrong password.");
+            }
             ctx.close();
         }
     }

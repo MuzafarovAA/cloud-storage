@@ -11,6 +11,8 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
+import ru.gb.storage.commons.message.AuthRegisterMessage;
+import ru.gb.storage.commons.message.AuthRequestMessage;
 import ru.gb.storage.commons.message.StorageFileDownloadMessage;
 
 public class Client {
@@ -50,8 +52,12 @@ public class Client {
 
             ChannelFuture channel = bootstrap.connect(HOST, PORT).sync();
 
-            final StorageFileDownloadMessage message = new StorageFileDownloadMessage();
-            message.setPath("testToSend.txt");
+            AuthRegisterMessage message = new AuthRegisterMessage("login4", "pass4");
+
+//            AuthRequestMessage message = new AuthRequestMessage("login2", "pass2");
+
+//            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
+//            message.setPath("testToSend.txt");
 
             channel.channel().writeAndFlush(message);
             channel.channel().closeFuture().sync();
