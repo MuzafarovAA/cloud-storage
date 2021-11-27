@@ -5,7 +5,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import ru.gb.storage.commons.message.*;
 
 import java.io.RandomAccessFile;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Message> {
@@ -45,11 +44,25 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
         if (msg instanceof StorageFileListMessage) {
             StorageFileListMessage message = (StorageFileListMessage) msg;
             ArrayList<String> files = message.getFiles();
-            System.out.println("Files in storage:");
-            for (int i = 0; i < files.size(); i++) {
-                System.out.println(files.get(i));
+            if (files == null) {
+                System.out.println("Empty.");
+            } else {
+                System.out.println("Files in storage:");
+                for (int i = 0; i < files.size(); i++) {
+                    System.out.println(files.get(i));
+                }
             }
+        }
 
+        if (msg instanceof FileErrorMessage) {
+            FileErrorMessage message = (FileErrorMessage) msg;
+            if (message.isDeleteError()) {
+                System.out.println("Failed to delete file.");
+            }
+        }
+
+        if (msg instanceof FileOkMessage) {
+            System.out.println("File operation succeed.");
         }
     }
 

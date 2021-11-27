@@ -16,9 +16,9 @@ public class AuthService {
     public void connectToDatabase() {
         try {
             connection = DriverManager.getConnection(DB_URL);
-            LOGGER.info("SQL connected");
+            LOGGER.info("Connected to database");
         } catch (SQLException e) {
-            LOGGER.error("SQL Exception while connecting to database.");
+            LOGGER.error("SQLException while connecting to database.");
             e.printStackTrace();
         }
     }
@@ -27,10 +27,10 @@ public class AuthService {
         try {
             if (connection != null) {
                 connection.close();
-                LOGGER.info("SQL connection closed");
+                LOGGER.info("Disconnected from database");
             }
         } catch (SQLException e) {
-            LOGGER.error("SQL Exception while closing connection to database.");
+            LOGGER.error("SQLException while closing connection to database.");
             e.printStackTrace();
         }
     }
@@ -45,7 +45,7 @@ public class AuthService {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.error("SQL Exception during login verification.");
+            LOGGER.error("SQLException while login verification.");
             e.printStackTrace();
         }
         return false;
@@ -60,7 +60,7 @@ public class AuthService {
                 return true;
             }
         } catch (SQLException e) {
-            LOGGER.error("SQL Exception during password verification.");
+            LOGGER.error("SQLException while password verification.");
             e.printStackTrace();
         }
         return false;
@@ -74,10 +74,10 @@ public class AuthService {
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.error("SQL Exception during user registration.");
+            LOGGER.error("SQLException while user registration.");
             e.printStackTrace();
         }
-        LOGGER.error("User registration failed.");
+        LOGGER.info("User registration failed.");
         return false;
     }
 

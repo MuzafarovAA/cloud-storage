@@ -6,19 +6,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.gb.storage.commons.message.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
-    //TODO логгирование уровня INFO сделать из класса ServerHandler, не AuthService. AuthService сделать только логгирование уровня ERROR
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
@@ -32,7 +27,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             AuthRequestMessage message = (AuthRequestMessage) msg;
             String login = message.getLogin();
             String password = message.getPassword();
-            message.getPassword();
             AuthService authService = new AuthService();
             authService.connectToDatabase();
             AuthErrorMessage authErrorMessage = new AuthErrorMessage();
@@ -78,12 +72,15 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
         }
         if (msg instanceof StorageUpdateMessage) {
+            LOGGER.info("Received new StorageUpdateMessage");
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
             String login = message.getLogin();
             ArrayList<String> files = getFileList(login);
+            LOGGER.info("File list updated.");
             StorageFileListMessage messageOutput = new StorageFileListMessage();
             messageOutput.setFiles(files);
             ctx.writeAndFlush(messageOutput);
+            LOGGER.info("Sent file list to client.");
 
         }
         if (msg instanceof StorageFileAddMessage) {
@@ -91,8 +88,26 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             //TODO запрос добавления файла
         }
         if (msg instanceof StorageFileDeleteMessage) {
+            LOGGER.info("Received new StorageFileDeleteMessage");
             StorageFileDeleteMessage message = (StorageFileDeleteMessage) msg;
-            //TODO запрос удаления файла
+            String login = message.getLogin();
+            String fileName = message.getFileName();
+            LOGGER.info("Requested deleting: " + fileName);
+            if (deleteFile(login, fileName)) {
+                LOGGER.info("File " + fileName + " deleted.");
+                ctx.writeAndFlush(new FileOkMessage());
+            } else {
+                LOGGER.info("Failed to delete file " + fileName);
+                FileErrorMessage errorMessage = new FileErrorMessage();
+                errorMessage.setDeleteError(true);
+                ctx.writeAndFlush(errorMessage);
+            }
+            ArrayList<String> files = getFileList(login);
+            StorageFileListMessage fileListMessage = new StorageFileListMessage();
+            fileListMessage.setFiles(files);
+            ctx.writeAndFlush(fileListMessage);
+            LOGGER.info("Sent updated file list to client.");
+
         }
         if (msg instanceof StorageFileDownloadMessage) {
             StorageFileDownloadMessage message = (StorageFileDownloadMessage) msg;
@@ -105,19 +120,30 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
         }
 
+    private boolean deleteFile(String login, String fileName) {
+        Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
+        try {
+            Files.delete(path);
+            return true;
+        } catch (NoSuchFileException e) {
+            LOGGER.error("NoSuchFileException while deleting file: " + path);
+            e.printStackTrace();
+        } catch (IOException e) {
+            LOGGER.error("IOException while deleting file: " + path);
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
-
-
-
-    private ArrayList<String> getFileList(String login) throws IOException {
+    private ArrayList<String> getFileList(String login) {
         ArrayList<String> files = new ArrayList<>();
         Path path = Path.of("server/cloud-storage/" + login);
         if (!Files.exists(path)) {
             try {
                 Files.createDirectory(path);
             } catch (IOException e) {
-                LOGGER.error("Error while creating directory at cloud storage: " + path); //TODO проверить что выдает при ошибке
+                LOGGER.error("IOException while creating directory at cloud storage: " + path); //TODO проверить что выдает при ошибке
                 e.printStackTrace();
             }
         }
@@ -130,37 +156,41 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                             return FileVisitResult.CONTINUE;
                         }
                     });
-
         } catch (IOException e) {
+            LOGGER.error("IOException while walkFileTree");
             e.printStackTrace();
         }
 
+        if (files.size() == 0) {
+            return null;
+        }
 
         return files;
     }
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Channel registered.");
+        LOGGER.info("Channel registered.");
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Channel unregistered.");
+        LOGGER.info("Channel unregistered.");
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Channel is active.");
+        LOGGER.info("Channel is active.");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Channel is inactive.");
+        LOGGER.info("Channel is inactive.");
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        LOGGER.error("Exception while channel activity");
         cause.printStackTrace();
         ctx.close();
     }

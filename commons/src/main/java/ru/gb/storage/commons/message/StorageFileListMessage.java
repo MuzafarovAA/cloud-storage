@@ -1,6 +1,5 @@
 package ru.gb.storage.commons.message;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class StorageFileListMessage extends Message {

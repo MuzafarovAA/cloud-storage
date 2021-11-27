@@ -13,8 +13,6 @@ import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
 import ru.gb.storage.commons.message.*;
 
-import java.nio.file.Path;
-
 public class Client {
 
     public static final String HOST = "localhost";
@@ -59,10 +57,11 @@ public class Client {
 //            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
 //            message.setPath("testToSend.txt");
 
-            StorageUpdateMessage message = new StorageUpdateMessage("login1");
+//            StorageUpdateMessage message = new StorageUpdateMessage("login3");
 
+//            StorageFileDeleteMessage message = new StorageFileDeleteMessage("login1", "jh");
 
-            channel.channel().writeAndFlush(message);
+//            channel.channel().writeAndFlush(message);
             channel.channel().closeFuture().sync();
 
         } catch (Exception e) {
