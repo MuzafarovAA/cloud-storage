@@ -17,10 +17,4 @@ target/
 .mvn
 
 #Temp
-git rm --cached /clientOld/
-
 *.fxml
-src/main/java/ru/gb/storage/client/AuthController.java
-src/main/java/ru/gb/storage/client/ClientController.java
-src/main/java/ru/gb/storage/client/RegController.java
-src/main/java/ru/gb/storage/client/ClientApp.java
