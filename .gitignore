@@ -19,8 +19,8 @@ target/
 #Temp
 /clientOld/
 
-.fxml
-AuthController.java
-ClientController.java
-RegController.java
-ClientApp.java
+*.fxml
+src/main/java/ru/gb/storage/client/AuthController.java
+src/main/java/ru/gb/storage/client/ClientController.java
+src/main/java/ru/gb/storage/client/RegController.java
+src/main/java/ru/gb/storage/client/ClientApp.java
