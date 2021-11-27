@@ -17,7 +17,7 @@ target/
 .mvn
 
 #Temp
-clientOld/
+git rm --cached /clientOld/
 
 *.fxml
 src/main/java/ru/gb/storage/client/AuthController.java
