@@ -22,9 +22,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
-        if (msg instanceof TextMessage) {
-            System.out.println("Received from server: " + ((TextMessage) msg).getText());
-        }
+
         if (msg instanceof FileMessage) {
             FileMessage message = (FileMessage) msg;
             String fileName = message.getFileName();

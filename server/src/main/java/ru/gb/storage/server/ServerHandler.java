@@ -29,11 +29,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
-        if (msg instanceof TextMessage) {
-            TextMessage message = (TextMessage) msg;
-            System.out.println("Received TextMessage: " + message.getText());
-            ctx.writeAndFlush(msg);
-        }
         if (msg instanceof AuthRequestMessage) {
             LOGGER.info("Received new AuthMessage.");
             AuthRequestMessage message = (AuthRequestMessage) msg;
