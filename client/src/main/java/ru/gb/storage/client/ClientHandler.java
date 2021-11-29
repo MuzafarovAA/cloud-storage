@@ -36,7 +36,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
 
         }
         if (msg instanceof FileEndMessage) {
-            System.out.println("Received file from server.");
+            FileEndMessage message = (FileEndMessage) msg;
+            System.out.println("Received file from server " + message.getFileName());
         }
 
         if (msg instanceof FileRequestMessage) {
@@ -97,6 +98,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
     }
 
     private boolean uploadFile(String login, Path filePath, ChannelHandlerContext ctx) {
+        String fileName = filePath.getFileName().toString();
         if (Files.exists(filePath)) {
             executor.execute(() -> {
 
@@ -115,14 +117,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
                         randomAccessFile.read(bytes);
                         FileMessage fileMessage = new FileMessage();
                         fileMessage.setLogin(login);
-                        fileMessage.setFileName(filePath.getFileName().toString());
+                        fileMessage.setFileName(fileName);
                         fileMessage.setContent(bytes);
                         fileMessage.setStartPosition(position);
                         ctx.writeAndFlush(fileMessage).sync();
                         System.out.println("Sent file part to server.");
                     } while (randomAccessFile.getFilePointer() < fileLength);
 
-                    ctx.writeAndFlush(new FileEndMessage());
+                    ctx.writeAndFlush(new FileEndMessage(login, fileName));
                     System.out.println("Sent file to server.");
 
                 } catch (FileNotFoundException e) {

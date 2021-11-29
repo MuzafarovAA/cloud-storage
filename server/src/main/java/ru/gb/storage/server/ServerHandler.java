@@ -125,11 +125,26 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 randomAccessFile.seek(message.getStartPosition());
                 randomAccessFile.write(message.getContent());
                 LOGGER.info("Received file part from user " + login);
+            } catch (FileNotFoundException e) {
+                LOGGER.error("FileNotFound exception while writing a file.");
+                e.printStackTrace();
+            } catch (IOException e) {
+                LOGGER.error("IO exception while writing a file.");
+                e.printStackTrace();
             }
 
         }
         if (msg instanceof FileEndMessage) {
-            LOGGER.info("Received file.");
+            LOGGER.info("Received new FileEndMessage.");
+            FileEndMessage message = (FileEndMessage) msg;
+            String login = message.getLogin();
+            String fileName = message.getFileName();
+            LOGGER.info("Received file " + fileName + " from user " + login);
+            StorageFileListMessage fileListMessage = new StorageFileListMessage();
+            fileListMessage.setFiles(getFileList(login));
+            LOGGER.info("File list updated.");
+            ctx.writeAndFlush(fileListMessage);
+            LOGGER.info("File list sent to client: " + login);
         }
 
         if (msg instanceof StorageFileDeleteMessage) {
@@ -200,7 +215,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                         LOGGER.info("Sent file part to " + login);
                     } while (randomAccessFile.getFilePointer() < fileLength);
 
-                    ctx.writeAndFlush(new FileEndMessage());
+                    ctx.writeAndFlush(new FileEndMessage(login, fileName));
+                    LOGGER.info("File transfer complete " + fileName + " to user " + login);
 
                 } catch (FileNotFoundException e) {
                     LOGGER.error("FileNotFoundException while downloading file.");
@@ -241,19 +257,19 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             try {
                 Files.createDirectory(path);
             } catch (IOException e) {
-                LOGGER.error("IOException while creating directory at cloud storage: " + path); //TODO проверить что выдает при ошибке
+                LOGGER.error("IOException while creating directory at cloud storage: " + path);
                 e.printStackTrace();
             }
         }
 
         try {
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                            files.add(path.relativize(file).toString());
-                            return FileVisitResult.CONTINUE;
-                        }
-                    });
+            Files.walkFileTree(path, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    files.add(path.relativize(file).toString());
+                    return FileVisitResult.CONTINUE;
+                }
+            });
         } catch (IOException e) {
             LOGGER.error("IOException while walkFileTree");
             e.printStackTrace();

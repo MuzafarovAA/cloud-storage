@@ -63,11 +63,11 @@ public class Client {
 //            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
 //            message.setPath("testToSend.txt");
 
-//            StorageUpdateMessage message = new StorageUpdateMessage("login1");
+            StorageUpdateMessage message = new StorageUpdateMessage("login1");
 
 //            StorageFileDeleteMessage message = new StorageFileDeleteMessage("login1", "jh");
 
-            FileRequestMessage message = new FileRequestMessage("login1", "8.mp4");
+//            FileRequestMessage message = new FileRequestMessage("login1", "8.mp4");
 
 //            Path filePath = Paths.get("D:\\GeekBrains\\cloud-storage\\2.mp4");
 //            StorageFileAddMessage message = new StorageFileAddMessage("login1", filePath);
