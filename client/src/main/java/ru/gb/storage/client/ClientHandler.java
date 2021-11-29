@@ -6,6 +6,7 @@ import ru.gb.storage.commons.message.*;
 
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Message> {
     @Override
@@ -43,7 +44,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
 
         if (msg instanceof StorageFileListMessage) {
             StorageFileListMessage message = (StorageFileListMessage) msg;
-            ArrayList<String> files = message.getFiles();
+            List<String> files = message.getFiles();
             if (files == null) {
                 System.out.println("Empty.");
             } else {

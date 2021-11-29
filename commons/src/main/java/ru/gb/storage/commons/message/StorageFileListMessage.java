@@ -1,15 +1,15 @@
 package ru.gb.storage.commons.message;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class StorageFileListMessage extends Message {
-    private ArrayList<String> files;
+    private List<String> files;
 
-    public ArrayList<String> getFiles() {
+    public List<String> getFiles() {
         return files;
     }
 
-    public void setFiles(ArrayList<String> files) {
+    public void setFiles(List<String> files) {
         this.files = files;
     }
 }

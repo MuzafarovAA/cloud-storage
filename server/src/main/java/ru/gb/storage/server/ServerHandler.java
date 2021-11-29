@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
@@ -75,7 +76,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             LOGGER.info("Received new StorageUpdateMessage");
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
             String login = message.getLogin();
-            ArrayList<String> files = getFileList(login);
+            List<String> files = getFileList(login);
             LOGGER.info("File list updated.");
             StorageFileListMessage messageOutput = new StorageFileListMessage();
             messageOutput.setFiles(files);
@@ -102,7 +103,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 errorMessage.setDeleteError(true);
                 ctx.writeAndFlush(errorMessage);
             }
-            ArrayList<String> files = getFileList(login);
+            List<String> files = getFileList(login);
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
             fileListMessage.setFiles(files);
             ctx.writeAndFlush(fileListMessage);
@@ -136,8 +137,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
     }
 
 
-    private ArrayList<String> getFileList(String login) {
-        ArrayList<String> files = new ArrayList<>();
+    private List<String> getFileList(String login) {
+        List<String> files = new ArrayList<>();
         Path path = Path.of("server/cloud-storage/" + login);
         if (!Files.exists(path)) {
             try {
@@ -190,7 +191,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOGGER.error("Exception while channel activity");
+        LOGGER.error("Exception while channel activity.");
         cause.printStackTrace();
         ctx.close();
     }

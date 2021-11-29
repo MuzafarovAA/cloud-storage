@@ -57,11 +57,11 @@ public class Client {
 //            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
 //            message.setPath("testToSend.txt");
 
-//            StorageUpdateMessage message = new StorageUpdateMessage("login3");
+            StorageUpdateMessage message = new StorageUpdateMessage("login1");
 
 //            StorageFileDeleteMessage message = new StorageFileDeleteMessage("login1", "jh");
 
-//            channel.channel().writeAndFlush(message);
+            channel.channel().writeAndFlush(message);
             channel.channel().closeFuture().sync();
 
         } catch (Exception e) {
