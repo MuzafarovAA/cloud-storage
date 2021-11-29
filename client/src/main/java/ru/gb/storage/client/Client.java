@@ -13,6 +13,11 @@ import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
 import ru.gb.storage.commons.message.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Client {
 
     public static final String HOST = "localhost";
@@ -28,6 +33,7 @@ public class Client {
 
 
         EventLoopGroup workerGroup = new NioEventLoopGroup(1);
+        ExecutorService threadPool = Executors.newCachedThreadPool();
 
         try {
 
@@ -42,7 +48,7 @@ public class Client {
                                     new LengthFieldPrepender(3),
                                     new JsonDecoder(),
                                     new JsonEncoder(),
-                                    new ClientHandler()
+                                    new ClientHandler(threadPool)
                             );
                         }
                     })
@@ -57,9 +63,14 @@ public class Client {
 //            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
 //            message.setPath("testToSend.txt");
 
-            StorageUpdateMessage message = new StorageUpdateMessage("login1");
+//            StorageUpdateMessage message = new StorageUpdateMessage("login1");
 
 //            StorageFileDeleteMessage message = new StorageFileDeleteMessage("login1", "jh");
+
+            FileRequestMessage message = new FileRequestMessage("login1", "8.mp4");
+
+//            Path filePath = Paths.get("D:\\GeekBrains\\cloud-storage\\2.mp4");
+//            StorageFileAddMessage message = new StorageFileAddMessage("login1", filePath);
 
             channel.channel().writeAndFlush(message);
             channel.channel().closeFuture().sync();

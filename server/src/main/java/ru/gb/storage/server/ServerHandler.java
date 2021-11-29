@@ -6,15 +6,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.gb.storage.commons.message.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
+    //TODO добавить в логгирование логин пользователя
+
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
+    private static final int BUFFER_SIZE = 65536;
+    private final Executor executor;
+
+    public ServerHandler(Executor executor) {
+        this.executor = executor;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
@@ -76,18 +87,51 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             LOGGER.info("Received new StorageUpdateMessage");
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
             String login = message.getLogin();
-            List<String> files = getFileList(login);
+            StorageFileListMessage fileListMessage = new StorageFileListMessage();
+            fileListMessage.setFiles(getFileList(login));
             LOGGER.info("File list updated.");
-            StorageFileListMessage messageOutput = new StorageFileListMessage();
-            messageOutput.setFiles(files);
-            ctx.writeAndFlush(messageOutput);
+            ctx.writeAndFlush(fileListMessage);
             LOGGER.info("Sent file list to client.");
 
         }
         if (msg instanceof StorageFileAddMessage) {
+            LOGGER.info("New StorageFileAddMessage received.");
             StorageFileAddMessage message = (StorageFileAddMessage) msg;
-            //TODO запрос добавления файла
+            String login = message.getLogin();
+            Path filePath = message.getFileName();
+            String fileName = String.valueOf(filePath.getFileName());
+            System.out.println(fileName);
+            Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
+            if (Files.exists(path)) {
+                LOGGER.info("File is already exist.");
+                FileErrorMessage errorMessage = new FileErrorMessage();
+                errorMessage.setAlreadyExists(true);
+                ctx.writeAndFlush(errorMessage);
+            } else {
+                FileRequestMessage fileRequestMessage = new FileRequestMessage();
+                fileRequestMessage.setLogin(login);
+                fileRequestMessage.setFilePath(filePath);
+                ctx.writeAndFlush(fileRequestMessage);
+                LOGGER.info("File request sent to user " + login + " to upload file " + filePath.toString());
+            }
         }
+
+        if (msg instanceof FileMessage) {
+            FileMessage message = (FileMessage) msg;
+            String login = message.getLogin();
+            String fileName = message.getFileName();
+            Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
+            try (RandomAccessFile randomAccessFile = new RandomAccessFile(String.valueOf(path), "rw")) {
+                randomAccessFile.seek(message.getStartPosition());
+                randomAccessFile.write(message.getContent());
+                LOGGER.info("Received file part from user " + login);
+            }
+
+        }
+        if (msg instanceof FileEndMessage) {
+            LOGGER.info("Received file.");
+        }
+
         if (msg instanceof StorageFileDeleteMessage) {
             LOGGER.info("Received new StorageFileDeleteMessage");
             StorageFileDeleteMessage message = (StorageFileDeleteMessage) msg;
@@ -103,23 +147,76 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 errorMessage.setDeleteError(true);
                 ctx.writeAndFlush(errorMessage);
             }
-            List<String> files = getFileList(login);
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
-            fileListMessage.setFiles(files);
+            fileListMessage.setFiles(getFileList(login));
+            LOGGER.info("File list updated.");
             ctx.writeAndFlush(fileListMessage);
-            LOGGER.info("Sent updated file list to client.");
+            LOGGER.info("File list sent to client: " + login);
 
         }
-        if (msg instanceof StorageFileDownloadMessage) {
-            StorageFileDownloadMessage message = (StorageFileDownloadMessage) msg;
-            LOGGER.info("File request message received of File: " + message.getPath());
-            //TODO запрос загрузки файла с хранилища
+        if (msg instanceof FileRequestMessage) {
+            LOGGER.info("Received new StorageFileDownloadMessage");
+            FileRequestMessage message = (FileRequestMessage) msg;
+            String login = message.getLogin();
+            String fileName = message.getFileName();
+            LOGGER.info("FileRequestMessage from " + login + ". File: " + fileName);
+
+            if (downloadFile(login, fileName, ctx)) {
+                LOGGER.info("File sent to client: " + login);
+            } else {
+                LOGGER.info("Failed to send file to client: " + login);
+            }
+
         }
 
 
 
 
         }
+
+    private boolean downloadFile(String login, String fileName, ChannelHandlerContext ctx) {
+        Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
+        if (Files.exists(path)) {
+            executor.execute(() -> {
+
+                try (RandomAccessFile randomAccessFile = new RandomAccessFile(String.valueOf(path), "r")) {
+                    long fileLength = randomAccessFile.length();
+                    
+                    do {
+                        long position = randomAccessFile.getFilePointer();
+                        long availableBytes = fileLength - position;
+                        byte[] bytes;
+                        if (availableBytes >= BUFFER_SIZE) {
+                            bytes = new byte[BUFFER_SIZE];
+                        } else {
+                            bytes = new byte[(int) availableBytes];
+                        }
+                        randomAccessFile.read(bytes);
+                        FileMessage fileMessage = new FileMessage();
+                        fileMessage.setFileName(fileName);
+                        fileMessage.setContent(bytes);
+                        fileMessage.setStartPosition(position);
+                        ctx.writeAndFlush(fileMessage).sync();
+                        LOGGER.info("Sent file part to " + login);
+                    } while (randomAccessFile.getFilePointer() < fileLength);
+
+                    ctx.writeAndFlush(new FileEndMessage());
+
+                } catch (FileNotFoundException e) {
+                    LOGGER.error("FileNotFoundException while downloading file.");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    LOGGER.error("IOException while downloading file.");
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    LOGGER.error("InterruptedException while downloading file.");
+                    e.printStackTrace();
+                }
+            });
+            return true;
+        }
+        return false;
+    }
 
     private boolean deleteFile(String login, String fileName) {
         Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);

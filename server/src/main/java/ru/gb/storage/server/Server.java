@@ -14,6 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
 
@@ -26,6 +28,7 @@ public class Server {
     private void start(int port) {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
+        ExecutorService threadPool = Executors.newCachedThreadPool();
 
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -39,7 +42,7 @@ public class Server {
                                     new LengthFieldPrepender(3),
                                     new JsonDecoder(),
                                     new JsonEncoder(),
-                                    new ServerHandler()
+                                    new ServerHandler(threadPool)
                             );
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
