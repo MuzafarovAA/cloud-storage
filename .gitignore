@@ -10,5 +10,11 @@
 *.iws
 *.iml
 *.ipr
-/target/
+target/
 /out/
+!**/src/main/**/target/
+!**/src/test/**/target/
+.mvn
+
+#Temp
+*.fxml
