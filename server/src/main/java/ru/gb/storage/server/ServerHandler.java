@@ -69,6 +69,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                     AuthOkMessage authOkMessage = new AuthOkMessage(login);
                     ctx.writeAndFlush(authOkMessage);
                     LOGGER.info("Registered new user. Login: " + login);
+                } else {
+                    authErrorMessage.setUnknownError(true);
+                    ctx.writeAndFlush(authErrorMessage);
+                    LOGGER.info("User registration failed.");
                 }
             } else {
                 authErrorMessage.setLoginError(true);

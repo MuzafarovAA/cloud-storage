@@ -77,7 +77,6 @@ public class AuthService {
             LOGGER.error("SQLException while user registration.");
             e.printStackTrace();
         }
-        LOGGER.info("User registration failed.");
         return false;
     }
 

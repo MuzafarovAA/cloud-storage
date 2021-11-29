@@ -61,8 +61,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
                 System.out.println("Wrong login.");
             } else if (message.isPasswordError()) {
                 System.out.println("Wrong password.");
+            } else if (message.isUnknownError()) {
+                System.out.println("Unknown error.");
             }
-            ctx.close();
         }
 
         if (msg instanceof StorageFileListMessage) {
