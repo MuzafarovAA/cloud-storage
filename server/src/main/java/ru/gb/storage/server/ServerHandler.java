@@ -29,38 +29,38 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
+        LOGGER.info("Channel read. ID: " + ctx.channel().id());
         if (msg instanceof AuthRequestMessage) {
-            LOGGER.info("Received new AuthMessage.");
             AuthRequestMessage message = (AuthRequestMessage) msg;
             String login = message.getLogin();
             String password = message.getPassword();
-            AuthService authService = new AuthService();
-            authService.connectToDatabase();
-            AuthErrorMessage authErrorMessage = new AuthErrorMessage();
-            if (authService.checkLogin(login)) {
-                if (authService.checkPassword(login, password)) {
-                    AuthOkMessage authOkMessage = new AuthOkMessage(login);
-                    ctx.writeAndFlush(authOkMessage);
-                    LOGGER.info("Successful authentication. Login: " + login);
+            LOGGER.info("Received new AuthMessage from user: " + login);
+                AuthService authService = new AuthService();
+                authService.connectToDatabase();
+                AuthErrorMessage authErrorMessage = new AuthErrorMessage();
+                if (authService.checkLogin(login)) {
+                    if (authService.checkPassword(login, password)) {
+                        AuthOkMessage authOkMessage = new AuthOkMessage(login);
+                        ctx.writeAndFlush(authOkMessage);
+                        LOGGER.info("Successful authentication. Login: " + login);
+                    } else {
+                        authErrorMessage.setLoginError(false);
+                        authErrorMessage.setPasswordError(true);
+                        ctx.writeAndFlush(authErrorMessage);
+                        LOGGER.info("Authentication failed. Incorrect password for login: " + login);
+                    }
                 } else {
-                    authErrorMessage.setLoginError(false);
-                    authErrorMessage.setPasswordError(true);
+                    authErrorMessage.setLoginError(true);
                     ctx.writeAndFlush(authErrorMessage);
-                    LOGGER.info("Authentication failed. Incorrect password. Login: " + login);
+                    LOGGER.info("Authentication failed. Incorrect login: " + login);
                 }
-            } else {
-                authErrorMessage.setLoginError(true);
-                ctx.writeAndFlush(authErrorMessage);
-                LOGGER.info("Authentication failed. Incorrect login: " + login);
-            }
-            authService.disconnectFromDatabase();
-
+                authService.disconnectFromDatabase();
         }
         if (msg instanceof AuthRegisterMessage) {
-            LOGGER.info("Received new AuthRegisterMessage");
             AuthRegisterMessage message = (AuthRegisterMessage) msg;
             String login = message.getLogin();
             String password = message.getPassword();
+            LOGGER.info("Received new AuthRegisterMessage from user: " + login);
             AuthService authService = new AuthService();
             authService.connectToDatabase();
             AuthErrorMessage authErrorMessage = new AuthErrorMessage();
@@ -77,27 +77,26 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             } else {
                 authErrorMessage.setLoginError(true);
                 ctx.writeAndFlush(authErrorMessage);
-                LOGGER.info("Registering new user failed. Login is already exist: " + login);
+                LOGGER.info("User registration failed. Login is already exist: " + login);
             }
             authService.disconnectFromDatabase();
 
         }
         if (msg instanceof StorageUpdateMessage) {
-            LOGGER.info("Received new StorageUpdateMessage");
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
             String login = message.getLogin();
+            LOGGER.info("Received new StorageUpdateMessage from user: " + login);
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
             fileListMessage.setFiles(getFileList(login));
-            LOGGER.info("File list updated.");
             ctx.writeAndFlush(fileListMessage);
-            LOGGER.info("Sent file list to client.");
+            LOGGER.info("Updated file list sent to user: " + login);
 
         }
         if (msg instanceof StorageFileAddMessage) {
-            LOGGER.info("New StorageFileAddMessage received.");
             StorageFileAddMessage message = (StorageFileAddMessage) msg;
             String login = message.getLogin();
             Path filePath = message.getFileName();
+            LOGGER.info("Received new StorageFileAddMessage from user: " + login);
             String fileName = String.valueOf(filePath.getFileName());
             System.out.println(fileName);
             Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
@@ -119,11 +118,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             FileMessage message = (FileMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
+            LOGGER.info("Received new FileMessage from user: " + login);
             Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
             try (RandomAccessFile randomAccessFile = new RandomAccessFile(String.valueOf(path), "rw")) {
                 randomAccessFile.seek(message.getStartPosition());
                 randomAccessFile.write(message.getContent());
-                LOGGER.info("Received file part from user " + login);
+                LOGGER.info("Received file part of " + fileName + " from user " + fileName);
             } catch (FileNotFoundException e) {
                 LOGGER.error("FileNotFound exception while writing a file.");
                 e.printStackTrace();
@@ -134,46 +134,46 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
         }
         if (msg instanceof FileEndMessage) {
-            LOGGER.info("Received new FileEndMessage.");
             FileEndMessage message = (FileEndMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
+            LOGGER.info("Received new FileEndMessage from user: " + login);
             LOGGER.info("Received file " + fileName + " from user " + login);
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
             fileListMessage.setFiles(getFileList(login));
-            LOGGER.info("File list updated.");
             ctx.writeAndFlush(fileListMessage);
-            LOGGER.info("File list sent to client: " + login);
+            LOGGER.info("Updated file list sent to user: " + login);
         }
 
         if (msg instanceof StorageFileDeleteMessage) {
-            LOGGER.info("Received new StorageFileDeleteMessage");
             StorageFileDeleteMessage message = (StorageFileDeleteMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
-            LOGGER.info("Requested deleting: " + fileName);
+            LOGGER.info("Received new StorageFileDeleteMessage from user: " + login);
+            LOGGER.info("Requested deleting: " + fileName + " from user " + login);
             if (deleteFile(login, fileName)) {
                 LOGGER.info("File " + fileName + " deleted.");
                 ctx.writeAndFlush(new FileOkMessage());
+                LOGGER.info("FileOkMessage sent to user " + login);
             } else {
                 LOGGER.info("Failed to delete file " + fileName);
                 FileErrorMessage errorMessage = new FileErrorMessage();
                 errorMessage.setDeleteError(true);
                 ctx.writeAndFlush(errorMessage);
+                LOGGER.info("FileErrorMessage sent to user: " + login);
             }
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
             fileListMessage.setFiles(getFileList(login));
-            LOGGER.info("File list updated.");
             ctx.writeAndFlush(fileListMessage);
-            LOGGER.info("File list sent to client: " + login);
+            LOGGER.info("Updated file list sent to user: " + login);
 
         }
         if (msg instanceof FileRequestMessage) {
-            LOGGER.info("Received new StorageFileDownloadMessage");
             FileRequestMessage message = (FileRequestMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
-            LOGGER.info("FileRequestMessage from " + login + ". File: " + fileName);
+            LOGGER.info("Received new StorageFileDownloadMessage from user: " + login);
+            LOGGER.info("Requested " + fileName + " from user " + login);
 
             if (downloadFile(login, fileName, ctx)) {
                 LOGGER.info("File sent to client: " + login);
@@ -216,6 +216,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
                     ctx.writeAndFlush(new FileEndMessage(login, fileName));
                     LOGGER.info("File transfer complete " + fileName + " to user " + login);
+                    LOGGER.info("FileEndMessage sent to user " + login);
 
                 } catch (FileNotFoundException e) {
                     LOGGER.error("FileNotFoundException while downloading file.");
@@ -283,27 +284,27 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("Channel registered.");
+        LOGGER.info("Channel registered. ID: " + ctx.channel().id());
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("Channel unregistered.");
+        LOGGER.info("Channel unregistered. ID: " + ctx.channel().id());
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("Channel is active.");
+        LOGGER.info("Channel is active. ID: " + ctx.channel().id());
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("Channel is inactive.");
+        LOGGER.info("Channel is inactive. ID: " + ctx.channel().id());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOGGER.error("Exception while channel activity.");
+        LOGGER.error(cause.getClass().getSimpleName() + " while connection. ID: " + ctx.channel().id());
         cause.printStackTrace();
         ctx.close();
     }
