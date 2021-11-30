@@ -29,7 +29,7 @@ public class Client {
 
     }
 
-    private void start() {
+    void start() {
 
 
         EventLoopGroup workerGroup = new NioEventLoopGroup(1);
@@ -58,7 +58,7 @@ public class Client {
 
 //            AuthRegisterMessage message = new AuthRegisterMessage("login4", "pass4");
 
-            AuthRequestMessage message1 = new AuthRequestMessage("login1", "pass1");
+//            AuthRequestMessage message1 = new AuthRequestMessage("login1", "pass1");
 
 //            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
 //            message.setPath("testToSend.txt");
@@ -72,7 +72,7 @@ public class Client {
 //            Path filePath = Paths.get("D:\\GeekBrains\\cloud-storage\\2.mp4");
 //            StorageFileAddMessage message = new StorageFileAddMessage("login1", filePath);
 
-            channel.channel().writeAndFlush(message1);
+//            channel.channel().writeAndFlush(message1);
 //            channel.channel().writeAndFlush(message2);
 //            channel.channel().writeAndFlush(message3);
             channel.channel().closeFuture().sync();

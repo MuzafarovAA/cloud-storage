@@ -15,11 +15,9 @@ public class AuthController {
     public PasswordField passwordField;
     @FXML
     public void switchToReg(ActionEvent actionEvent) throws IOException {
-        ClientApp.setRoot("regDialog");
     }
     @FXML
     public void executeAuth(ActionEvent actionEvent) throws IOException {
-        ClientApp.setRoot("mainScene");
     }
 
 }

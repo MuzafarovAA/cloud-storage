@@ -43,9 +43,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
             String login = message.getLogin();
             Path filePath = message.getFilePath();
             if (uploadFile(login, filePath, ctx)) {
-                System.out.println("File sent to client: " + login);
+                System.out.println("File sent to server.");
             } else {
-                System.out.println("Failed to send file to client: " + login);
+                System.out.println("Failed to send file to server.");
             }
 
         }

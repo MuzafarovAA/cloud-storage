@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
-
 public class RegController {
 
     @FXML
@@ -18,8 +16,4 @@ public class RegController {
     public void executeReg(ActionEvent actionEvent) {
     }
 
-    @FXML
-    public void switchToAuth(ActionEvent actionEvent) throws IOException {
-        ClientApp.setRoot("authDialog");
-    }
 }
