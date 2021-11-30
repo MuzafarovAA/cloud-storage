@@ -58,21 +58,23 @@ public class Client {
 
 //            AuthRegisterMessage message = new AuthRegisterMessage("login4", "pass4");
 
-//            AuthRequestMessage message = new AuthRequestMessage("login2", "pass2");
+            AuthRequestMessage message1 = new AuthRequestMessage("login1", "pass1");
 
 //            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
 //            message.setPath("testToSend.txt");
 
-            StorageUpdateMessage message = new StorageUpdateMessage("login1");
+            StorageUpdateMessage message2 = new StorageUpdateMessage("login1");
 
 //            StorageFileDeleteMessage message = new StorageFileDeleteMessage("login1", "jh");
 
-//            FileRequestMessage message = new FileRequestMessage("login1", "8.mp4");
+            FileRequestMessage message3 = new FileRequestMessage("login1", "8.mp4");
 
 //            Path filePath = Paths.get("D:\\GeekBrains\\cloud-storage\\2.mp4");
 //            StorageFileAddMessage message = new StorageFileAddMessage("login1", filePath);
 
-            channel.channel().writeAndFlush(message);
+            channel.channel().writeAndFlush(message1);
+//            channel.channel().writeAndFlush(message2);
+//            channel.channel().writeAndFlush(message3);
             channel.channel().closeFuture().sync();
 
         } catch (Exception e) {

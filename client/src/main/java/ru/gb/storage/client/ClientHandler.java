@@ -14,7 +14,7 @@ import java.util.concurrent.Executor;
 
 public class ClientHandler extends SimpleChannelInboundHandler<Message> {
     private static final int BUFFER_SIZE = 65536;
-    private Executor executor;
+    private final Executor executor;
 
     public ClientHandler(Executor executor) {
         this.executor = executor;

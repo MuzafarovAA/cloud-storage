@@ -17,8 +17,6 @@ import java.util.concurrent.Executor;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
-    //TODO добавить в логгирование логин пользователя
-
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
     private static final int BUFFER_SIZE = 65536;
     private final Executor executor;
@@ -35,27 +33,28 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             String login = message.getLogin();
             String password = message.getPassword();
             LOGGER.info("Received new AuthMessage from user: " + login);
-                AuthService authService = new AuthService();
-                authService.connectToDatabase();
-                AuthErrorMessage authErrorMessage = new AuthErrorMessage();
-                if (authService.checkLogin(login)) {
-                    if (authService.checkPassword(login, password)) {
-                        AuthOkMessage authOkMessage = new AuthOkMessage(login);
-                        ctx.writeAndFlush(authOkMessage);
-                        LOGGER.info("Successful authentication. Login: " + login);
-                    } else {
-                        authErrorMessage.setLoginError(false);
-                        authErrorMessage.setPasswordError(true);
-                        ctx.writeAndFlush(authErrorMessage);
-                        LOGGER.info("Authentication failed. Incorrect password for login: " + login);
-                    }
+            AuthService authService = new AuthService();
+            authService.connectToDatabase();
+            AuthErrorMessage authErrorMessage = new AuthErrorMessage();
+            if (authService.checkLogin(login)) {
+                if (authService.checkPassword(login, password)) {
+                    AuthOkMessage authOkMessage = new AuthOkMessage(login);
+                    ctx.writeAndFlush(authOkMessage);
+                    LOGGER.info("Successful authentication. Login: " + login);
                 } else {
-                    authErrorMessage.setLoginError(true);
+                    authErrorMessage.setLoginError(false);
+                    authErrorMessage.setPasswordError(true);
                     ctx.writeAndFlush(authErrorMessage);
-                    LOGGER.info("Authentication failed. Incorrect login: " + login);
+                    LOGGER.info("Authentication failed. Incorrect password for login: " + login);
                 }
-                authService.disconnectFromDatabase();
+            } else {
+                authErrorMessage.setLoginError(true);
+                ctx.writeAndFlush(authErrorMessage);
+                LOGGER.info("Authentication failed. Incorrect login: " + login);
+            }
+            authService.disconnectFromDatabase();
         }
+
         if (msg instanceof AuthRegisterMessage) {
             AuthRegisterMessage message = (AuthRegisterMessage) msg;
             String login = message.getLogin();
@@ -80,8 +79,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 LOGGER.info("User registration failed. Login is already exist: " + login);
             }
             authService.disconnectFromDatabase();
-
         }
+
         if (msg instanceof StorageUpdateMessage) {
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
             String login = message.getLogin();
@@ -90,8 +89,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             fileListMessage.setFiles(getFileList(login));
             ctx.writeAndFlush(fileListMessage);
             LOGGER.info("Updated file list sent to user: " + login);
-
         }
+
         if (msg instanceof StorageFileAddMessage) {
             StorageFileAddMessage message = (StorageFileAddMessage) msg;
             String login = message.getLogin();
@@ -131,8 +130,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 LOGGER.error("IO exception while writing a file.");
                 e.printStackTrace();
             }
-
         }
+
         if (msg instanceof FileEndMessage) {
             FileEndMessage message = (FileEndMessage) msg;
             String login = message.getLogin();
@@ -166,27 +165,21 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             fileListMessage.setFiles(getFileList(login));
             ctx.writeAndFlush(fileListMessage);
             LOGGER.info("Updated file list sent to user: " + login);
-
         }
+
         if (msg instanceof FileRequestMessage) {
             FileRequestMessage message = (FileRequestMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
             LOGGER.info("Received new StorageFileDownloadMessage from user: " + login);
             LOGGER.info("Requested " + fileName + " from user " + login);
-
             if (downloadFile(login, fileName, ctx)) {
                 LOGGER.info("File sent to client: " + login);
             } else {
                 LOGGER.info("Failed to send file to client: " + login);
             }
-
         }
-
-
-
-
-        }
+    }
 
     private boolean downloadFile(String login, String fileName, ChannelHandlerContext ctx) {
         Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
@@ -195,7 +188,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
                 try (RandomAccessFile randomAccessFile = new RandomAccessFile(String.valueOf(path), "r")) {
                     long fileLength = randomAccessFile.length();
-                    
+
                     do {
                         long position = randomAccessFile.getFilePointer();
                         long availableBytes = fileLength - position;
@@ -274,11 +267,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             LOGGER.error("IOException while walkFileTree");
             e.printStackTrace();
         }
-
         if (files.size() == 0) {
             return null;
         }
-
         return files;
     }
 
