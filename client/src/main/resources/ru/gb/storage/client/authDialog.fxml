@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.gb.storage.client.AuthController">
+   <children>
+      <Label layoutX="21.0" layoutY="25.0" text="Логин:" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="25.0" />
+      <Label layoutX="21.0" layoutY="70.0" text="Пароль:" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="70.0" />
+      <TextField fx:id="loginField" layoutX="87.0" layoutY="21.0" prefHeight="25.0" prefWidth="156.0" />
+      <PasswordField fx:id="passwordField" layoutX="87.0" layoutY="66.0" onAction="#executeAuth" prefHeight="25.0" prefWidth="156.0" />
+      <Button fx:id="authButton" layoutX="87.0" layoutY="121.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#executeAuth" prefHeight="25.0" prefWidth="156.0" text="Войти!" />
+      <Button fx:id="regButton" layoutX="87.0" layoutY="153.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToReg" prefHeight="25.0" prefWidth="156.0" text="Регистрация" />
+   </children>
+</AnchorPane>
