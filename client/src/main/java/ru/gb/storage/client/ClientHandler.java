@@ -85,6 +85,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
                     System.out.println(files.get(i));
                 }
             }
+            clientApp.setStorageFileList(files);
         }
 
         if (msg instanceof FileErrorMessage) {

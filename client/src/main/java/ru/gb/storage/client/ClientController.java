@@ -20,7 +20,7 @@ public class ClientController {
     @FXML
     public Button updateLocalFileListButton;
     @FXML
-    public ListView cloudStorageList;
+    public ListView cloudStorageListView;
     @FXML
     public Button selectAllStorageFilesButton;
     @FXML
@@ -52,14 +52,15 @@ public class ClientController {
     }
 
     public void updateStorageFileList(ActionEvent actionEvent) {
+        clientApp.sendUpdateRequest(login);
     }
 
-    public void setLocalStorageListView(List<String> localStorageList) {
-        Platform.runLater(() -> localStorageListView.setItems(FXCollections.observableList(localStorageList)));
+    public void setLocalStorageListView(List<String> files) {
+        Platform.runLater(() -> localStorageListView.setItems(FXCollections.observableList(files)));
     }
 
-    public void setCloudStorageList(ListView cloudStorageList) {
-        this.cloudStorageList = cloudStorageList;
+    public void setCloudStorageListView(List<String> files) {
+        Platform.runLater(() -> cloudStorageListView.setItems(FXCollections.observableList(files)));
     }
 
     public void initClientApp(ClientApp clientApp) {

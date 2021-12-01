@@ -29,10 +29,10 @@
             <VBox prefHeight="400.0" prefWidth="300.0">
                <children>
                   <Label alignment="BASELINE_CENTER" prefHeight="20.0" prefWidth="300.0" text="Cloud Storage" />
-                  <ListView fx:id="cloudStorageList" prefHeight="350.0" prefWidth="300.0" />
+                  <ListView fx:id="cloudStorageListView" prefHeight="350.0" prefWidth="300.0" />
                   <HBox prefHeight="30.0" prefWidth="300.0">
                      <children>
-                        <Button fx:id="selectAllStorageFilesButton" mnemonicParsing="false" onAction="#selectAllStorageFiles" prefHeight="30.0" prefWidth="100.0" text="Button" />
+                        <Button fx:id="selectAllStorageFilesButton" mnemonicParsing="false" onAction="#selectAllStorageFiles" prefHeight="30.0" prefWidth="100.0" text="Select All" />
                         <Button fx:id="downloadStorageFileButton" mnemonicParsing="false" onAction="#downloadStorageFile" prefHeight="30.0" prefWidth="100.0" text="Download" />
                         <Button fx:id="deleteStorageFileButton" mnemonicParsing="false" onAction="#deleteStorageFile" prefHeight="30.0" prefWidth="100.0" text="Delete" />
                         <Button fx:id="updateStorageFileListButton" mnemonicParsing="false" onAction="#updateStorageFileList" prefHeight="30.0" prefWidth="100.0" text="Update" />

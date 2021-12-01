@@ -98,6 +98,7 @@ public class ClientApp extends Application {
             primaryStage.setTitle("Cloud Storage " + login);
             clientController.initLogin(login);
             updateLocalFiles(login);
+            sendUpdateRequest(login);
         });
     }
 
@@ -108,9 +109,16 @@ public class ClientApp extends Application {
         });
     }
 
+    public void setStorageFileList(List<String> files) {
+        if (!(files == null)) {
+            clientController.setCloudStorageListView(files);
+        }
+    }
+
     public void sendUpdateRequest(String login) {
         network.sendUpdateRequest(login);
     }
+
 
     public void updateLocalFiles(String login) {
         List<String> files = new ArrayList<>();
@@ -138,6 +146,5 @@ public class ClientApp extends Application {
         clientController.setLocalStorageListView(files);
 
     }
-
 }
 
