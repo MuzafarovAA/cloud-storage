@@ -92,6 +92,10 @@ public class ClientApp extends Application {
         network.sendRegMessage(login, password);
     }
 
+    public void sendDeleteRequest(String login, String fileName) {
+        network.sendDeleteMessage(login, fileName);
+    }
+
     public void setAuthOk(String login) {
         Platform.runLater(() -> {
             authDialogStage.close();
@@ -145,6 +149,18 @@ public class ClientApp extends Application {
         }
         clientController.setLocalStorageListView(files);
 
+    }
+
+    public void deleteLocalFile(String login, String fileName) {
+        Path path = Paths.get("local-storage/" + login + "/" + fileName);
+        try {
+            Files.delete(path);
+        } catch (NoSuchFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        updateLocalFiles(login);
     }
 }
 

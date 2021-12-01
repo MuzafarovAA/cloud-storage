@@ -79,5 +79,10 @@ public class Network {
         StorageUpdateMessage storageUpdateMessage = new StorageUpdateMessage(login);
         channel.channel().writeAndFlush(storageUpdateMessage);
     }
+
+    public void sendDeleteMessage(String login, String fileName) {
+        StorageFileDeleteMessage storageFileDeleteMessage = new StorageFileDeleteMessage(login, fileName);
+        channel.channel().writeAndFlush(storageFileDeleteMessage);
+    }
 }
 
