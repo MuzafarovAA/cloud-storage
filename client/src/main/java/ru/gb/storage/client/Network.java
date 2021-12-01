@@ -70,9 +70,14 @@ public class Network {
         channel.channel().writeAndFlush(authRequestMessage);
     }
 
-    public void sendRegMessage(String login, String password) {
+    void sendRegMessage(String login, String password) {
         AuthRegisterMessage authRegisterMessage = new AuthRegisterMessage(login, password);
         channel.channel().writeAndFlush(authRegisterMessage);
+    }
+
+    public void sendUpdateRequest(String login) {
+        StorageUpdateMessage storageUpdateMessage = new StorageUpdateMessage(login);
+        channel.channel().writeAndFlush(storageUpdateMessage);
     }
 }
 

@@ -16,7 +16,7 @@
             <VBox prefHeight="400.0" prefWidth="300.0">
                <children>
                   <Label alignment="BASELINE_CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="300.0" text="Local Storage" textAlignment="CENTER" />
-                  <ListView fx:id="localStorageList" prefHeight="350.0" prefWidth="300.0" />
+                  <ListView fx:id="localStorageListView" prefHeight="350.0" prefWidth="300.0" />
                   <HBox prefHeight="30.0" prefWidth="300.0">
                      <children>
                         <Button fx:id="selectAllLocalFilesButton" mnemonicParsing="false" onAction="#selectAllLocalFiles" prefHeight="30.0" prefWidth="100.0" text="Select All" />

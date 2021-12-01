@@ -13,6 +13,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientApp extends Application {
 
@@ -23,6 +27,7 @@ public class ClientApp extends Application {
     private Stage authDialogStage;
     private Network network;
     private Alert alert;
+    private ClientController clientController;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -56,6 +61,8 @@ public class ClientApp extends Application {
         primaryStage.setTitle("Cloud Storage");
         scene = new Scene(mainPanel);
         primaryStage.setScene(scene);
+        clientController = fxmlMainLoader.getController();
+        clientController.initClientApp(this);
     }
 
     private void initAuthWindow() throws IOException {
@@ -89,6 +96,8 @@ public class ClientApp extends Application {
         Platform.runLater(() -> {
             authDialogStage.close();
             primaryStage.setTitle("Cloud Storage " + login);
+            clientController.initLogin(login);
+            updateLocalFiles(login);
         });
     }
 
@@ -98,5 +107,37 @@ public class ClientApp extends Application {
             alert.showAndWait();
         });
     }
+
+    public void sendUpdateRequest(String login) {
+        network.sendUpdateRequest(login);
+    }
+
+    public void updateLocalFiles(String login) {
+        List<String> files = new ArrayList<>();
+        Path path = Path.of("local-storage/" + login);
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectory(path);
+            } catch (NoSuchFileException e) {
+                System.out.println("no such file");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            Files.walkFileTree(path, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    files.add(path.relativize(file).toString());
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        clientController.setLocalStorageListView(files);
+
+    }
+
 }
 

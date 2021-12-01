@@ -55,8 +55,10 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
 
         if (msg instanceof AuthOkMessage) {
             AuthOkMessage message = (AuthOkMessage) msg;
-            System.out.println("Auth Ok received. Login: " + message.getLogin());
-            clientApp.setAuthOk(message.getLogin());
+            String login = message.getLogin();
+            System.out.println("Auth Ok received. Login: " + login);
+            clientApp.setAuthOk(login);
+            StorageUpdateMessage storageUpdateMessage = new StorageUpdateMessage(login);
         }
 
         if (msg instanceof AuthErrorMessage) {
