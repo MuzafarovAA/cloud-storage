@@ -33,6 +33,8 @@ public class ClientController {
 
 //TODO файл не выбран
     public void uploadFromLocalFile(ActionEvent actionEvent) {
+        String fileName = getSelectedFileNameFormatted(localStorageListView);
+        clientApp.sendUploadRequest(login, fileName);
     }
 
     public void updateLocalFileList(ActionEvent actionEvent) {

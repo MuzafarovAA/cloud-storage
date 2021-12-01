@@ -127,6 +127,11 @@ public class ClientApp extends Application {
         network.sendDownloadRequest(login, fileName);
     }
 
+    public void sendUploadRequest(String login, String fileName) {
+        Path filePath = Path.of("local-storage/" + login + "/" + fileName);
+        network.sendAddMessage(login, filePath);
+    }
+
 
     public void updateLocalFiles(String login) {
         List<String> files = new ArrayList<>();

@@ -1,10 +1,10 @@
 package ru.gb.storage.client;
 
+import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -13,7 +13,7 @@ import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
 import ru.gb.storage.commons.message.*;
 
-import java.util.List;
+import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -93,5 +93,9 @@ public class Network {
         channel.channel().writeAndFlush(fileRequestMessage);
     }
 
+    public void sendAddMessage(String login, Path filePath) {
+        StorageFileAddMessage storageFileAddMessage = new StorageFileAddMessage(login, filePath);
+        channel.channel().writeAndFlush(storageFileAddMessage);
+    }
 }
 
