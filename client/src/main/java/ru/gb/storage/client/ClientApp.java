@@ -2,6 +2,7 @@ package ru.gb.storage.client;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -19,7 +21,7 @@ public class ClientApp extends Application {
     private Scene scene;
     private Stage primaryStage;
     private Stage authDialogStage;
-    private Client client;
+    private Network network;
     private Alert alert;
 
     @Override
@@ -27,8 +29,8 @@ public class ClientApp extends Application {
         this.primaryStage = primaryStage;
 
         Thread thread = new Thread(() -> {
-            client = new Client();
-            client.start(this);
+            network = new Network();
+            network.start(this);
         });
         thread.setDaemon(true);
         thread.start();
@@ -37,6 +39,14 @@ public class ClientApp extends Application {
         initMainWindow();
         primaryStage.show();
         authDialogStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 
     }
 
@@ -67,12 +77,12 @@ public class ClientApp extends Application {
 
     public void sendAuthMessage(String login, String password) {
         //TODO проверка на пустые поля
-        client.sendAuthMessage(login, password);
+        network.sendAuthMessage(login, password);
     }
 
     public void sendRegMessage(String login, String password) {
 
-        client.sendRegMessage(login, password);
+        network.sendRegMessage(login, password);
     }
 
     public void setAuthOk(String login) {

@@ -16,7 +16,7 @@ import ru.gb.storage.commons.message.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Client {
+public class Network {
 
     public static final String HOST = "localhost";
     public static final int PORT = 9000;
