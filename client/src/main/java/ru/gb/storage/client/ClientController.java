@@ -40,6 +40,8 @@ public class ClientController {
     }
 
     public void downloadStorageFile(ActionEvent actionEvent) {
+        String fileName = getSelectedFileNameFormatted(cloudStorageListView);
+        clientApp.sendDownloadRequest(login, fileName);
     }
 
     public void deleteLocalFile(ActionEvent actionEvent) {

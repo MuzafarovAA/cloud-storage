@@ -200,6 +200,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                         }
                         randomAccessFile.read(bytes);
                         FileMessage fileMessage = new FileMessage();
+                        fileMessage.setLogin(login);
                         fileMessage.setFileName(fileName);
                         fileMessage.setContent(bytes);
                         fileMessage.setStartPosition(position);

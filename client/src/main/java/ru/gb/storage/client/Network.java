@@ -13,6 +13,7 @@ import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
 import ru.gb.storage.commons.message.*;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -84,5 +85,13 @@ public class Network {
         StorageFileDeleteMessage storageFileDeleteMessage = new StorageFileDeleteMessage(login, fileName);
         channel.channel().writeAndFlush(storageFileDeleteMessage);
     }
+
+    public void sendDownloadRequest(String login, String fileName) {
+        FileRequestMessage fileRequestMessage = new FileRequestMessage();
+        fileRequestMessage.setLogin(login);
+        fileRequestMessage.setFileName(fileName);
+        channel.channel().writeAndFlush(fileRequestMessage);
+    }
+
 }
 

@@ -26,10 +26,12 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
 
+        //TODO файл с таким именем уже существует
         if (msg instanceof FileMessage) {
             FileMessage message = (FileMessage) msg;
+            String login = message.getLogin();
             String fileName = message.getFileName();
-            try (RandomAccessFile randomAccessFile = new RandomAccessFile(fileName, "rw")) {
+            try (RandomAccessFile randomAccessFile = new RandomAccessFile(("local-storage/" + login + "/" + fileName), "rw")) {
                 randomAccessFile.seek(message.getStartPosition());
                 randomAccessFile.write(message.getContent());
                 System.out.println("Received file part from server.");
@@ -38,7 +40,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
         }
         if (msg instanceof FileEndMessage) {
             FileEndMessage message = (FileEndMessage) msg;
+            String login = message.getLogin();
             System.out.println("Received file from server " + message.getFileName());
+            clientApp.updateLocalFiles(login);
         }
 
         if (msg instanceof FileRequestMessage) {

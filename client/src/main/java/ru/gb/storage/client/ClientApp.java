@@ -123,6 +123,10 @@ public class ClientApp extends Application {
         network.sendUpdateRequest(login);
     }
 
+    public void sendDownloadRequest(String login, String fileName) {
+        network.sendDownloadRequest(login, fileName);
+    }
+
 
     public void updateLocalFiles(String login) {
         List<String> files = new ArrayList<>();
