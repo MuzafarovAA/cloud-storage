@@ -13,8 +13,6 @@ import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
 import ru.gb.storage.commons.message.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,14 +20,15 @@ public class Client {
 
     public static final String HOST = "localhost";
     public static final int PORT = 9000;
+    private ChannelFuture channel;
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
+//
+//        new Client().start();
+//
+//    }
 
-        new Client().start();
-
-    }
-
-    void start() {
+    void start(ClientApp clientApp) {
 
 
         EventLoopGroup workerGroup = new NioEventLoopGroup(1);
@@ -48,33 +47,13 @@ public class Client {
                                     new LengthFieldPrepender(3),
                                     new JsonDecoder(),
                                     new JsonEncoder(),
-                                    new ClientHandler(threadPool)
+                                    new ClientHandler(threadPool, clientApp)
                             );
                         }
                     })
                     .option(ChannelOption.SO_KEEPALIVE, true);
 
-            ChannelFuture channel = bootstrap.connect(HOST, PORT).sync();
-
-//            AuthRegisterMessage message = new AuthRegisterMessage("login4", "pass4");
-
-//            AuthRequestMessage message1 = new AuthRequestMessage("login1", "pass1");
-
-//            StorageFileDownloadMessage message = new StorageFileDownloadMessage();
-//            message.setPath("testToSend.txt");
-
-            StorageUpdateMessage message2 = new StorageUpdateMessage("login1");
-
-//            StorageFileDeleteMessage message = new StorageFileDeleteMessage("login1", "jh");
-
-            FileRequestMessage message3 = new FileRequestMessage("login1", "8.mp4");
-
-//            Path filePath = Paths.get("D:\\GeekBrains\\cloud-storage\\2.mp4");
-//            StorageFileAddMessage message = new StorageFileAddMessage("login1", filePath);
-
-//            channel.channel().writeAndFlush(message1);
-//            channel.channel().writeAndFlush(message2);
-//            channel.channel().writeAndFlush(message3);
+            channel = bootstrap.connect(HOST, PORT).sync();
             channel.channel().closeFuture().sync();
 
         } catch (Exception e) {
@@ -86,5 +65,14 @@ public class Client {
 
     }
 
+    void sendAuthMessage(String login, String password) {
+        AuthRequestMessage authRequestMessage = new AuthRequestMessage(login,password);
+        channel.channel().writeAndFlush(authRequestMessage);
+    }
+
+    public void sendRegMessage(String login, String password) {
+        AuthRegisterMessage authRegisterMessage = new AuthRegisterMessage(login, password);
+        channel.channel().writeAndFlush(authRegisterMessage);
+    }
 }
 

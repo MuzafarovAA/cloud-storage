@@ -32,7 +32,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             AuthRequestMessage message = (AuthRequestMessage) msg;
             String login = message.getLogin();
             String password = message.getPassword();
-            LOGGER.info("Received new AuthMessage from user: " + login);
+            LOGGER.info("Received new AuthMessage from user: " + login + ". ID: " + ctx.channel().id());
             AuthService authService = new AuthService();
             authService.connectToDatabase();
             AuthErrorMessage authErrorMessage = new AuthErrorMessage();
@@ -40,17 +40,17 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 if (authService.checkPassword(login, password)) {
                     AuthOkMessage authOkMessage = new AuthOkMessage(login);
                     ctx.writeAndFlush(authOkMessage);
-                    LOGGER.info("Successful authentication. Login: " + login);
+                    LOGGER.info("Successful authentication. Login: " + login + ". ID: " + ctx.channel().id());
                 } else {
                     authErrorMessage.setLoginError(false);
                     authErrorMessage.setPasswordError(true);
                     ctx.writeAndFlush(authErrorMessage);
-                    LOGGER.info("Authentication failed. Incorrect password for login: " + login);
+                    LOGGER.info("Authentication failed. Incorrect password for login: " + login + ". ID: " + ctx.channel().id());
                 }
             } else {
                 authErrorMessage.setLoginError(true);
                 ctx.writeAndFlush(authErrorMessage);
-                LOGGER.info("Authentication failed. Incorrect login: " + login);
+                LOGGER.info("Authentication failed. Incorrect login: " + login + ". ID: " + ctx.channel().id());
             }
             authService.disconnectFromDatabase();
         }
@@ -59,7 +59,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             AuthRegisterMessage message = (AuthRegisterMessage) msg;
             String login = message.getLogin();
             String password = message.getPassword();
-            LOGGER.info("Received new AuthRegisterMessage from user: " + login);
+            LOGGER.info("Received new AuthRegisterMessage from user: " + login + ". ID: " + ctx.channel().id());
             AuthService authService = new AuthService();
             authService.connectToDatabase();
             AuthErrorMessage authErrorMessage = new AuthErrorMessage();
@@ -67,16 +67,16 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 if (authService.registerUser(login, password)) {
                     AuthOkMessage authOkMessage = new AuthOkMessage(login);
                     ctx.writeAndFlush(authOkMessage);
-                    LOGGER.info("Registered new user. Login: " + login);
+                    LOGGER.info("Registered new user. Login: " + login + ". ID: " + ctx.channel().id());
                 } else {
                     authErrorMessage.setUnknownError(true);
                     ctx.writeAndFlush(authErrorMessage);
-                    LOGGER.info("User registration failed.");
+                    LOGGER.info("User registration failed." + ". ID: " + ctx.channel().id());
                 }
             } else {
                 authErrorMessage.setLoginError(true);
                 ctx.writeAndFlush(authErrorMessage);
-                LOGGER.info("User registration failed. Login is already exist: " + login);
+                LOGGER.info("User registration failed. Login is already exist: " + login + ". ID: " + ctx.channel().id());
             }
             authService.disconnectFromDatabase();
         }
@@ -84,23 +84,23 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
         if (msg instanceof StorageUpdateMessage) {
             StorageUpdateMessage message = (StorageUpdateMessage) msg;
             String login = message.getLogin();
-            LOGGER.info("Received new StorageUpdateMessage from user: " + login);
+            LOGGER.info("Received new StorageUpdateMessage from user: " + login + ". ID: " + ctx.channel().id());
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
             fileListMessage.setFiles(getFileList(login));
             ctx.writeAndFlush(fileListMessage);
-            LOGGER.info("Updated file list sent to user: " + login);
+            LOGGER.info("Updated file list sent to user: " + login + ". ID: " + ctx.channel().id());
         }
 
         if (msg instanceof StorageFileAddMessage) {
             StorageFileAddMessage message = (StorageFileAddMessage) msg;
             String login = message.getLogin();
             Path filePath = message.getFileName();
-            LOGGER.info("Received new StorageFileAddMessage from user: " + login);
+            LOGGER.info("Received new StorageFileAddMessage from user: " + login + ". ID: " + ctx.channel().id());
             String fileName = String.valueOf(filePath.getFileName());
             System.out.println(fileName);
             Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
             if (Files.exists(path)) {
-                LOGGER.info("File is already exist.");
+                LOGGER.info("File is already exist." + " ID: " + ctx.channel().id());
                 FileErrorMessage errorMessage = new FileErrorMessage();
                 errorMessage.setAlreadyExists(true);
                 ctx.writeAndFlush(errorMessage);
@@ -109,7 +109,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
                 fileRequestMessage.setLogin(login);
                 fileRequestMessage.setFilePath(filePath);
                 ctx.writeAndFlush(fileRequestMessage);
-                LOGGER.info("File request sent to user " + login + " to upload file " + filePath.toString());
+                LOGGER.info("File request sent to user " + login + " to upload file " + filePath.toString() + ". ID: " + ctx.channel().id());
             }
         }
 
@@ -117,12 +117,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             FileMessage message = (FileMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
-            LOGGER.info("Received new FileMessage from user: " + login);
+            LOGGER.info("Received new FileMessage from user: " + login + ". ID: " + ctx.channel().id());
             Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
             try (RandomAccessFile randomAccessFile = new RandomAccessFile(String.valueOf(path), "rw")) {
                 randomAccessFile.seek(message.getStartPosition());
                 randomAccessFile.write(message.getContent());
-                LOGGER.info("Received file part of " + fileName + " from user " + fileName);
+                LOGGER.info("Received file part of " + fileName + " from user " + fileName + ". ID: " + ctx.channel().id());
             } catch (FileNotFoundException e) {
                 LOGGER.error("FileNotFound exception while writing a file.");
                 e.printStackTrace();
@@ -136,47 +136,47 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             FileEndMessage message = (FileEndMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
-            LOGGER.info("Received new FileEndMessage from user: " + login);
-            LOGGER.info("Received file " + fileName + " from user " + login);
+            LOGGER.info("Received new FileEndMessage from user: " + login + ". ID: " + ctx.channel().id());
+            LOGGER.info("Received file " + fileName + " from user " + login + ". ID: " + ctx.channel().id());
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
             fileListMessage.setFiles(getFileList(login));
             ctx.writeAndFlush(fileListMessage);
-            LOGGER.info("Updated file list sent to user: " + login);
+            LOGGER.info("Updated file list sent to user: " + login + ". ID: " + ctx.channel().id());
         }
 
         if (msg instanceof StorageFileDeleteMessage) {
             StorageFileDeleteMessage message = (StorageFileDeleteMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
-            LOGGER.info("Received new StorageFileDeleteMessage from user: " + login);
-            LOGGER.info("Requested deleting: " + fileName + " from user " + login);
+            LOGGER.info("Received new StorageFileDeleteMessage from user: " + login + ". ID: " + ctx.channel().id());
+            LOGGER.info("Requested deleting: " + fileName + " from user " + login + ". ID: " + ctx.channel().id());
             if (deleteFile(login, fileName)) {
-                LOGGER.info("File " + fileName + " deleted.");
+                LOGGER.info("File " + fileName + " deleted." + ". ID: " + ctx.channel().id());
                 ctx.writeAndFlush(new FileOkMessage());
-                LOGGER.info("FileOkMessage sent to user " + login);
+                LOGGER.info("FileOkMessage sent to user " + login + ". ID: " + ctx.channel().id());
             } else {
-                LOGGER.info("Failed to delete file " + fileName);
+                LOGGER.info("Failed to delete file " + fileName + ". ID: " + ctx.channel().id());
                 FileErrorMessage errorMessage = new FileErrorMessage();
                 errorMessage.setDeleteError(true);
                 ctx.writeAndFlush(errorMessage);
-                LOGGER.info("FileErrorMessage sent to user: " + login);
+                LOGGER.info("FileErrorMessage sent to user: " + login + ". ID: " + ctx.channel().id());
             }
             StorageFileListMessage fileListMessage = new StorageFileListMessage();
             fileListMessage.setFiles(getFileList(login));
             ctx.writeAndFlush(fileListMessage);
-            LOGGER.info("Updated file list sent to user: " + login);
+            LOGGER.info("Updated file list sent to user: " + login + ". ID: " + ctx.channel().id());
         }
 
         if (msg instanceof FileRequestMessage) {
             FileRequestMessage message = (FileRequestMessage) msg;
             String login = message.getLogin();
             String fileName = message.getFileName();
-            LOGGER.info("Received new StorageFileDownloadMessage from user: " + login);
-            LOGGER.info("Requested " + fileName + " from user " + login);
+            LOGGER.info("Received new StorageFileDownloadMessage from user: " + login + ". ID: " + ctx.channel().id());
+            LOGGER.info("Requested " + fileName + " from user " + login + ". ID: " + ctx.channel().id());
             if (downloadFile(login, fileName, ctx)) {
-                LOGGER.info("File sent to client: " + login);
+                LOGGER.info("File sent to client: " + login + ". ID: " + ctx.channel().id());
             } else {
-                LOGGER.info("Failed to send file to client: " + login);
+                LOGGER.info("Failed to send file to client: " + login + ". ID: " + ctx.channel().id());
             }
         }
     }

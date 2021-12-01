@@ -15,9 +15,12 @@ import java.util.concurrent.Executor;
 public class ClientHandler extends SimpleChannelInboundHandler<Message> {
     private static final int BUFFER_SIZE = 65536;
     private final Executor executor;
+    private final ClientApp clientApp;
+    private String errorText;
 
-    public ClientHandler(Executor executor) {
+    public ClientHandler(Executor executor, ClientApp clientApp) {
         this.executor = executor;
+        this.clientApp = clientApp;
     }
 
     @Override
@@ -53,17 +56,20 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
         if (msg instanceof AuthOkMessage) {
             AuthOkMessage message = (AuthOkMessage) msg;
             System.out.println("Auth Ok received. Login: " + message.getLogin());
+            clientApp.setAuthOk(message.getLogin());
         }
 
         if (msg instanceof AuthErrorMessage) {
             AuthErrorMessage message = (AuthErrorMessage) msg;
             if (message.isLoginError()) {
-                System.out.println("Wrong login.");
+                errorText = "Wrong login.";
             } else if (message.isPasswordError()) {
-                System.out.println("Wrong password.");
+                errorText = "Wrong password.";
             } else if (message.isUnknownError()) {
-                System.out.println("Unknown error.");
+                errorText = "Unknown error.";
             }
+            System.out.println(errorText);
+            clientApp.setAuthError(errorText);
         }
 
         if (msg instanceof StorageFileListMessage) {
