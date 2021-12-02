@@ -4,7 +4,9 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 
 import java.util.List;
@@ -29,11 +31,13 @@ public class ClientController {
     public Button updateStorageFileListButton;
     private ClientApp clientApp;
     private String login;
+    private Alert alert;
 
-    //TODO файл не выбран
     public void uploadFromLocalFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(localStorageListView);
-        clientApp.sendUploadRequest(login, fileName);
+        if (isFileSelected(fileName)) {
+            clientApp.sendUploadRequest(login, fileName);
+        }
     }
 
     public void updateLocalFileList(ActionEvent actionEvent) {
@@ -42,17 +46,23 @@ public class ClientController {
 
     public void downloadStorageFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(cloudStorageListView);
-        clientApp.sendDownloadRequest(login, fileName);
+        if (isFileSelected(fileName)) {
+            clientApp.sendDownloadRequest(login, fileName);
+        }
     }
 
     public void deleteLocalFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(localStorageListView);
-        clientApp.deleteLocalFile(login, fileName);
+        if (isFileSelected(fileName)) {
+            clientApp.deleteLocalFile(login, fileName);
+        }
     }
 
     public void deleteStorageFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(cloudStorageListView);
-        clientApp.sendDeleteRequest(login, fileName);
+        if (isFileSelected(fileName)) {
+            clientApp.sendDeleteRequest(login, fileName);
+        }
     }
 
     private String getSelectedFileNameFormatted(ListView listView) {
@@ -62,6 +72,15 @@ public class ClientController {
         fileName.deleteCharAt(fileName.length() - 1);
         System.out.println(fileName.toString());
         return fileName.toString();
+    }
+
+    private boolean isFileSelected(String fileName) {
+        if (fileName == null || fileName.isBlank()) {
+            alert = new Alert(Alert.AlertType.ERROR, "File is not selected.", ButtonType.OK);
+            alert.showAndWait();
+            return false;
+        }
+        else return true;
     }
 
     public void updateStorageFileList(ActionEvent actionEvent) {

@@ -53,6 +53,14 @@ public class ClientApp extends Application {
             }
         });
 
+        authDialogStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+
     }
 
     private void initMainWindow() throws IOException {
@@ -83,7 +91,6 @@ public class ClientApp extends Application {
     }
 
     public void sendAuthMessage(String login, String password) {
-        //TODO проверка на пустые поля
         network.sendAuthMessage(login, password);
     }
 
@@ -98,6 +105,8 @@ public class ClientApp extends Application {
 
     public void setAuthOk(String login) {
         Platform.runLater(() -> {
+            alert = new Alert(Alert.AlertType.INFORMATION, "Successful authentication. Welcome, " + login, ButtonType.OK);
+            alert.showAndWait();
             authDialogStage.close();
             primaryStage.setTitle("Cloud Storage " + login);
             clientController.initLogin(login);
