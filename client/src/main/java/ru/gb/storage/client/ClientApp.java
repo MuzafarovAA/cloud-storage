@@ -69,6 +69,7 @@ public class ClientApp extends Application {
         primaryStage.setTitle("Cloud Storage");
         scene = new Scene(mainPanel);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         clientController = fxmlMainLoader.getController();
         clientController.initClientApp(this);
     }
@@ -82,6 +83,7 @@ public class ClientApp extends Application {
         authDialogStage.initModality(Modality.WINDOW_MODAL);
         scene = new Scene(authDialogPanel);
         authDialogStage.setScene(scene);
+        authDialogStage.setResizable(false);
         AuthController authController = fxmlAuthLoader.getController();
         authController.initClientApp(this);
     }

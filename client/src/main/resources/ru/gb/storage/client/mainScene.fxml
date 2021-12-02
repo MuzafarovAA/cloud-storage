@@ -1,50 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.gb.storage.client.ClientController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.gb.storage.client.ClientController">
     <children>
-        <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox prefHeight="400.0" prefWidth="300.0">
                     <children>
-                        <Label alignment="BASELINE_CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="300.0"
-                               text="Local Storage" textAlignment="CENTER"/>
-                        <ListView fx:id="localStorageListView" prefHeight="350.0" prefWidth="300.0"/>
+                        <Label alignment="BASELINE_CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="300.0" text="Local Storage" textAlignment="CENTER" />
+                        <ListView fx:id="localStorageListView" prefHeight="350.0" prefWidth="300.0" />
                         <HBox prefHeight="30.0" prefWidth="300.0">
                             <children>
-                                <!--                        <Button fx:id="selectAllLocalFilesButton" mnemonicParsing="false" onAction="#selectAllLocalFiles" prefHeight="30.0" prefWidth="100.0" text="Select All" />-->
-                                <Button fx:id="uploadFromLocalFileButton" mnemonicParsing="false"
-                                        onAction="#uploadFromLocalFile" prefHeight="30.0" prefWidth="100.0"
-                                        text="Upload"/>
-                                <Button fx:id="deleteLocalFileButton" mnemonicParsing="false"
-                                        onAction="#deleteLocalFile" prefHeight="30.0" prefWidth="100.0" text="Delete"/>
-                                <Button fx:id="updateLocalFileListButton" mnemonicParsing="false"
-                                        onAction="#updateLocalFileList" prefHeight="30.0" prefWidth="100.0"
-                                        text="Update"/>
+                                <Button fx:id="uploadFromLocalFileButton" mnemonicParsing="false" onAction="#uploadFromLocalFile" prefHeight="30.0" prefWidth="100.0" text="Upload" />
+                                <Button fx:id="deleteLocalFileButton" mnemonicParsing="false" onAction="#deleteLocalFile" prefHeight="30.0" prefWidth="100.0" text="Delete" />
+                                <Button fx:id="updateLocalFileListButton" mnemonicParsing="false" onAction="#updateLocalFileList" prefHeight="30.0" prefWidth="100.0" text="Update" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
                 <VBox prefHeight="400.0" prefWidth="300.0">
                     <children>
-                        <Label alignment="BASELINE_CENTER" prefHeight="20.0" prefWidth="300.0" text="Cloud Storage"/>
-                        <ListView fx:id="cloudStorageListView" prefHeight="350.0" prefWidth="300.0"/>
+                        <Label alignment="BASELINE_CENTER" prefHeight="20.0" prefWidth="300.0" text="Cloud Storage" />
+                        <ListView fx:id="cloudStorageListView" prefHeight="350.0" prefWidth="300.0" />
                         <HBox prefHeight="30.0" prefWidth="300.0">
                             <children>
-                                <!--                        <Button fx:id="selectAllStorageFilesButton" mnemonicParsing="false" onAction="#selectAllStorageFiles" prefHeight="30.0" prefWidth="100.0" text="Select All" />-->
-                                <Button fx:id="downloadStorageFileButton" mnemonicParsing="false"
-                                        onAction="#downloadStorageFile" prefHeight="30.0" prefWidth="100.0"
-                                        text="Download"/>
-                                <Button fx:id="deleteStorageFileButton" mnemonicParsing="false"
-                                        onAction="#deleteStorageFile" prefHeight="30.0" prefWidth="100.0"
-                                        text="Delete"/>
-                                <Button fx:id="updateStorageFileListButton" mnemonicParsing="false"
-                                        onAction="#updateStorageFileList" prefHeight="30.0" prefWidth="100.0"
-                                        text="Update"/>
+                                <Button fx:id="downloadStorageFileButton" mnemonicParsing="false" onAction="#downloadStorageFile" prefHeight="30.0" prefWidth="100.0" text="Download" />
+                                <Button fx:id="deleteStorageFileButton" mnemonicParsing="false" onAction="#deleteStorageFile" prefHeight="30.0" prefWidth="100.0" text="Delete" />
+                                <Button fx:id="updateStorageFileListButton" mnemonicParsing="false" onAction="#updateStorageFileList" prefHeight="30.0" prefWidth="100.0" text="Update" />
                             </children>
                         </HBox>
                     </children>

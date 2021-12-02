@@ -3225,3 +3225,190 @@
 2021-12-02 22:01:05 [nioEventLoopGroup-3-1] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: 150bb537
 2021-12-02 22:01:05 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: 150bb537
 2021-12-02 22:01:05 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: 150bb537
+2021-12-02 22:03:50 [main] INFO  ru.gb.storage.server.ServerHandler - Server started
+2021-12-02 22:04:01 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 18f4db3e
+2021-12-02 22:04:01 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 18f4db3e
+2021-12-02 22:04:08 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 18f4db3e
+2021-12-02 22:04:08 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: login1. ID: 18f4db3e
+2021-12-02 22:04:08 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:04:08 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: login1. ID: 18f4db3e
+2021-12-02 22:04:08 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:04:09 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 18f4db3e
+2021-12-02 22:04:09 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: login1. ID: 18f4db3e
+2021-12-02 22:04:09 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received new StorageFileAddMessage from user: login1. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - File request sent to user login1 to upload file D:\GeekBrains\cloud-storage\client\local-storage\login1\4322gfgf.gif. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received new FileMessage from user: login1. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received file part of 4322gfgf.gif from user 4322gfgf.gif. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received new FileEndMessage from user: login1. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received file 4322gfgf.gif from user login1. ID: 18f4db3e
+2021-12-02 22:04:13 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: 18f4db3e
+2021-12-02 22:06:02 [nioEventLoopGroup-3-1] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: 18f4db3e
+2021-12-02 22:06:02 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: 18f4db3e
+2021-12-02 22:06:02 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: 18f4db3e
+2021-12-02 22:06:04 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: e66c0846
+2021-12-02 22:06:04 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: e66c0846
+2021-12-02 22:06:07 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: e66c0846
+2021-12-02 22:06:07 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: login1. ID: e66c0846
+2021-12-02 22:06:07 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:06:07 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: login1. ID: e66c0846
+2021-12-02 22:06:07 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:06:09 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: e66c0846
+2021-12-02 22:06:09 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: login1. ID: e66c0846
+2021-12-02 22:06:09 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: e66c0846
+2021-12-02 22:06:35 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: e66c0846
+2021-12-02 22:06:35 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: login1. ID: e66c0846
+2021-12-02 22:06:35 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: e66c0846
+2021-12-02 22:07:46 [nioEventLoopGroup-3-2] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: e66c0846
+2021-12-02 22:07:46 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: e66c0846
+2021-12-02 22:07:46 [nioEventLoopGroup-3-2] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: e66c0846
+2021-12-02 22:07:54 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: b0dedd99
+2021-12-02 22:07:54 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: b0dedd99
+2021-12-02 22:08:01 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:01 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:01 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:08:01 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: login1. ID: b0dedd99
+2021-12-02 22:08:01 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:08:02 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:02 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:02 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new StorageFileAddMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - File request sent to user login1 to upload file D:\GeekBrains\cloud-storage\client\local-storage\login1\42.txt. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new FileMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received file part of 42.txt from user 42.txt. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new FileEndMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received file 42.txt from user login1. ID: b0dedd99
+2021-12-02 22:08:05 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new StorageFileAddMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - File request sent to user login1 to upload file D:\GeekBrains\cloud-storage\client\local-storage\login1\42.txt. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new FileMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received file part of 42.txt from user 42.txt. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new FileEndMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received file 42.txt from user login1. ID: b0dedd99
+2021-12-02 22:08:20 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new StorageFileAddMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - File request sent to user login1 to upload file D:\GeekBrains\cloud-storage\client\local-storage\login1\4322gfgf.gif. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new FileMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received file part of 4322gfgf.gif from user 4322gfgf.gif. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received new FileEndMessage from user: login1. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Received file 4322gfgf.gif from user login1. ID: b0dedd99
+2021-12-02 22:08:42 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: b0dedd99
+2021-12-02 22:08:48 [nioEventLoopGroup-3-3] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: b0dedd99
+2021-12-02 22:08:48 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: b0dedd99
+2021-12-02 22:08:48 [nioEventLoopGroup-3-3] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: b0dedd99
+2021-12-02 22:12:16 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 2c14818b
+2021-12-02 22:12:16 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 2c14818b
+2021-12-02 22:12:20 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 2c14818b
+2021-12-02 22:12:20 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: login1. ID: 2c14818b
+2021-12-02 22:12:20 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:12:20 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: login1. ID: 2c14818b
+2021-12-02 22:12:20 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:12:22 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 2c14818b
+2021-12-02 22:12:22 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: login1. ID: 2c14818b
+2021-12-02 22:12:22 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: 2c14818b
+2021-12-02 22:12:57 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 2c14818b
+2021-12-02 22:12:57 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Received new StorageFileDownloadMessage from user: login1. ID: 2c14818b
+2021-12-02 22:12:57 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Requested dir1\fileindir from user login1. ID: 2c14818b
+2021-12-02 22:12:57 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - File sent to client: login1. ID: 2c14818b
+2021-12-02 22:12:57 [pool-2-thread-1] INFO  ru.gb.storage.server.ServerHandler - Sent file part to login1
+2021-12-02 22:12:57 [pool-2-thread-1] INFO  ru.gb.storage.server.ServerHandler - File transfer complete dir1\fileindir to user login1
+2021-12-02 22:12:57 [pool-2-thread-1] INFO  ru.gb.storage.server.ServerHandler - FileEndMessage sent to user login1
+2021-12-02 22:12:57 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: 2c14818b
+2021-12-02 22:12:57 [nioEventLoopGroup-3-4] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: 2c14818b
+2021-12-02 22:17:52 [nioEventLoopGroup-3-5] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 723047ed
+2021-12-02 22:17:52 [nioEventLoopGroup-3-5] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 723047ed
+2021-12-02 22:17:59 [nioEventLoopGroup-3-5] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: 723047ed
+2021-12-02 22:17:59 [nioEventLoopGroup-3-5] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: 723047ed
+2021-12-02 22:17:59 [nioEventLoopGroup-3-5] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: 723047ed
+2021-12-02 22:18:08 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 210b662f
+2021-12-02 22:18:08 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 210b662f
+2021-12-02 22:18:12 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 210b662f
+2021-12-02 22:18:12 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: login1. ID: 210b662f
+2021-12-02 22:18:12 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:18:12 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: login1. ID: 210b662f
+2021-12-02 22:18:12 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:18:13 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 210b662f
+2021-12-02 22:18:13 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: login1. ID: 210b662f
+2021-12-02 22:18:13 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: 210b662f
+2021-12-02 22:18:16 [nioEventLoopGroup-3-6] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: 210b662f
+2021-12-02 22:18:16 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: 210b662f
+2021-12-02 22:18:16 [nioEventLoopGroup-3-6] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: 210b662f
+2021-12-02 22:18:27 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 16bca8ae
+2021-12-02 22:18:27 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 16bca8ae
+2021-12-02 22:18:33 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 16bca8ae
+2021-12-02 22:18:33 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: login1. ID: 16bca8ae
+2021-12-02 22:18:33 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:18:33 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: login1. ID: 16bca8ae
+2021-12-02 22:18:33 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:18:34 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 16bca8ae
+2021-12-02 22:18:34 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: login1. ID: 16bca8ae
+2021-12-02 22:18:34 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: login1. ID: 16bca8ae
+2021-12-02 22:20:38 [nioEventLoopGroup-3-7] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: 16bca8ae
+2021-12-02 22:20:38 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: 16bca8ae
+2021-12-02 22:20:38 [nioEventLoopGroup-3-7] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: 16bca8ae
+2021-12-02 22:20:46 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 47371d91
+2021-12-02 22:20:46 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 47371d91
+2021-12-02 22:20:50 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 47371d91
+2021-12-02 22:20:50 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Received new AuthRegisterMessage from user: 1. ID: 47371d91
+2021-12-02 22:20:50 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:20:50 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Registered new user. Login: 1. ID: 47371d91
+2021-12-02 22:20:50 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:20:51 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 47371d91
+2021-12-02 22:20:51 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: 1. ID: 47371d91
+2021-12-02 22:20:51 [nioEventLoopGroup-3-8] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: 1. ID: 47371d91
+2021-12-02 22:21:41 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 20ea104c
+2021-12-02 22:21:41 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 20ea104c
+2021-12-02 22:21:43 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 20ea104c
+2021-12-02 22:21:43 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: 1. ID: 20ea104c
+2021-12-02 22:21:43 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:21:43 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: 1. ID: 20ea104c
+2021-12-02 22:21:43 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:21:44 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 20ea104c
+2021-12-02 22:21:44 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: 1. ID: 20ea104c
+2021-12-02 22:21:44 [nioEventLoopGroup-3-9] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: 1. ID: 20ea104c
+2021-12-02 22:26:39 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 1adb61f9
+2021-12-02 22:26:39 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 1adb61f9
+2021-12-02 22:26:40 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 1adb61f9
+2021-12-02 22:26:40 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: 1. ID: 1adb61f9
+2021-12-02 22:26:40 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:26:40 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: 1. ID: 1adb61f9
+2021-12-02 22:26:40 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:26:42 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 1adb61f9
+2021-12-02 22:26:42 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: 1. ID: 1adb61f9
+2021-12-02 22:26:42 [nioEventLoopGroup-3-10] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: 1. ID: 1adb61f9
+2021-12-02 22:27:30 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 82d889e2
+2021-12-02 22:27:30 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 82d889e2
+2021-12-02 22:27:34 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 82d889e2
+2021-12-02 22:27:34 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: 1. ID: 82d889e2
+2021-12-02 22:27:34 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:27:34 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: 1. ID: 82d889e2
+2021-12-02 22:27:34 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:27:35 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 82d889e2
+2021-12-02 22:27:35 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: 1. ID: 82d889e2
+2021-12-02 22:27:35 [nioEventLoopGroup-3-11] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: 1. ID: 82d889e2
+2021-12-02 22:33:38 [main] INFO  ru.gb.storage.server.ServerHandler - Server started
+2021-12-02 22:33:45 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel registered. ID: 77de57b3
+2021-12-02 22:33:45 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel is active. ID: 77de57b3
+2021-12-02 22:33:48 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 77de57b3
+2021-12-02 22:33:48 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received new AuthMessage from user: 1. ID: 77de57b3
+2021-12-02 22:33:48 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Connected to database
+2021-12-02 22:33:48 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Successful authentication. Login: 1. ID: 77de57b3
+2021-12-02 22:33:48 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Disconnected from database
+2021-12-02 22:33:49 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel read. ID: 77de57b3
+2021-12-02 22:33:49 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Received new StorageUpdateMessage from user: 1. ID: 77de57b3
+2021-12-02 22:33:49 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Updated file list sent to user: 1. ID: 77de57b3
+2021-12-02 22:41:05 [nioEventLoopGroup-3-1] ERROR ru.gb.storage.server.ServerHandler - SocketException while connection. ID: 77de57b3
+2021-12-02 22:41:05 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel is inactive. ID: 77de57b3
+2021-12-02 22:41:05 [nioEventLoopGroup-3-1] INFO  ru.gb.storage.server.ServerHandler - Channel unregistered. ID: 77de57b3
