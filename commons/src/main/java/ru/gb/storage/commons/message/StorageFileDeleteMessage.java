@@ -2,7 +2,7 @@ package ru.gb.storage.commons.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StorageFileDeleteMessage extends Message{
+public class StorageFileDeleteMessage extends Message {
     private final String login;
     private final String fileName;
 

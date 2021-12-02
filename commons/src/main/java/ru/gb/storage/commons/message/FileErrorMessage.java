@@ -1,6 +1,6 @@
 package ru.gb.storage.commons.message;
 
-public class FileErrorMessage extends Message{
+public class FileErrorMessage extends Message {
     private boolean deleteError;
     private boolean alreadyExists;
 

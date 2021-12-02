@@ -2,7 +2,7 @@ package ru.gb.storage.commons.message;
 
 import java.nio.file.Path;
 
-public class FileRequestMessage extends Message{
+public class FileRequestMessage extends Message {
     private String login;
     private String fileName;
     private Path filePath;

@@ -39,7 +39,7 @@ public class ClientApp extends Application {
         });
         thread.setDaemon(true);
         thread.start();
-        
+
         initAuthWindow();
         initMainWindow();
         primaryStage.show();

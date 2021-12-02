@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class ClientController {
     private ClientApp clientApp;
     private String login;
 
-//TODO файл не выбран
+    //TODO файл не выбран
     public void uploadFromLocalFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(localStorageListView);
         clientApp.sendUploadRequest(login, fileName);

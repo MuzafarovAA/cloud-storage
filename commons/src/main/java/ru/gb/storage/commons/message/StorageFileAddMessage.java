@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.file.Path;
 
-public class StorageFileAddMessage extends Message{
+public class StorageFileAddMessage extends Message {
     private final String login;
     private final Path fileName;
 

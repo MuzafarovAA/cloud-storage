@@ -12,13 +12,15 @@ public class AuthController {
     public TextField loginField;
     @FXML
     public PasswordField passwordField;
+
     @FXML
-    public void executeReg(ActionEvent actionEvent){
+    public void executeReg(ActionEvent actionEvent) {
         //TODO проверка на пустые поля
         clientApp.sendRegMessage(loginField.getText(), passwordField.getText());
     }
+
     @FXML
-    public void executeAuth(ActionEvent actionEvent){
+    public void executeAuth(ActionEvent actionEvent) {
         //TODO проверка на пустые поля
         clientApp.sendAuthMessage(loginField.getText(), passwordField.getText());
     }

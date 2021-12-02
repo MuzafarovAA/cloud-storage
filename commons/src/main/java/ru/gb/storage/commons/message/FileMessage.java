@@ -1,6 +1,6 @@
 package ru.gb.storage.commons.message;
 
-public class FileMessage extends Message{
+public class FileMessage extends Message {
 
     private String login;
     private String fileName;

@@ -1,6 +1,6 @@
 package ru.gb.storage.commons.message;
 
-public class AuthErrorMessage extends Message{
+public class AuthErrorMessage extends Message {
     private boolean loginError;
     private boolean passwordError;
     private boolean unknownError;

@@ -2,7 +2,7 @@ package ru.gb.storage.commons.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AuthRegisterMessage extends Message{
+public class AuthRegisterMessage extends Message {
     private String login;
     private String password;
 

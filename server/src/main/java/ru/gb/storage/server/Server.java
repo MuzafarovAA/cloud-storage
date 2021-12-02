@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,7 +39,7 @@ public class Server {
                         @Override
                         protected void initChannel(NioSocketChannel channel) throws Exception {
                             channel.pipeline().addLast(
-                                    new LengthFieldBasedFrameDecoder(1024 * 1024,0,3,0,3),
+                                    new LengthFieldBasedFrameDecoder(1024 * 1024, 0, 3, 0, 3),
                                     new LengthFieldPrepender(3),
                                     new JsonDecoder(),
                                     new JsonEncoder(),

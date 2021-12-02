@@ -44,7 +44,7 @@ public class Network {
                         @Override
                         protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                             nioSocketChannel.pipeline().addLast(
-                                    new LengthFieldBasedFrameDecoder(1024 * 1024,0,3,0,3),
+                                    new LengthFieldBasedFrameDecoder(1024 * 1024, 0, 3, 0, 3),
                                     new LengthFieldPrepender(3),
                                     new JsonDecoder(),
                                     new JsonEncoder(),
@@ -67,7 +67,7 @@ public class Network {
     }
 
     void sendAuthMessage(String login, String password) {
-        AuthRequestMessage authRequestMessage = new AuthRequestMessage(login,password);
+        AuthRequestMessage authRequestMessage = new AuthRequestMessage(login, password);
         channel.channel().writeAndFlush(authRequestMessage);
     }
 
