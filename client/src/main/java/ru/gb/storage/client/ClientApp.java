@@ -95,7 +95,6 @@ public class ClientApp extends Application {
     }
 
     public void sendRegMessage(String login, String password) {
-
         network.sendRegMessage(login, password);
     }
 

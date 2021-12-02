@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ClientController {
 
@@ -36,7 +37,15 @@ public class ClientController {
     public void uploadFromLocalFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(localStorageListView);
         if (isFileSelected(fileName)) {
-            clientApp.sendUploadRequest(login, fileName);
+            if (cloudStorageListView.getItems().contains(fileName)) {
+                alert = new Alert(Alert.AlertType.WARNING, "File is already exists in cloud storage. Replace it?", ButtonType.YES, ButtonType.NO);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.YES) {
+                    clientApp.sendUploadRequest(login, fileName);
+                }
+            } else {
+                clientApp.sendUploadRequest(login, fileName);
+            }
         }
     }
 
@@ -47,7 +56,15 @@ public class ClientController {
     public void downloadStorageFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(cloudStorageListView);
         if (isFileSelected(fileName)) {
-            clientApp.sendDownloadRequest(login, fileName);
+            if (localStorageListView.getItems().contains(fileName)) {
+                alert = new Alert(Alert.AlertType.WARNING, "File is already exists in local storage. Replace it?", ButtonType.YES, ButtonType.NO);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.YES) {
+                    clientApp.sendDownloadRequest(login, fileName);
+                }
+            } else {
+                clientApp.sendDownloadRequest(login, fileName);
+            }
         }
     }
 
@@ -79,8 +96,7 @@ public class ClientController {
             alert = new Alert(Alert.AlertType.ERROR, "File is not selected.", ButtonType.OK);
             alert.showAndWait();
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
     public void updateStorageFileList(ActionEvent actionEvent) {

@@ -98,19 +98,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             LOGGER.info("Received new StorageFileAddMessage from user: " + login + ". ID: " + ctx.channel().id());
             String fileName = String.valueOf(filePath.getFileName());
             System.out.println(fileName);
-            Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
-            if (Files.exists(path)) {
-                LOGGER.info("File is already exist." + " ID: " + ctx.channel().id());
-                FileErrorMessage errorMessage = new FileErrorMessage();
-                errorMessage.setAlreadyExists(true);
-                ctx.writeAndFlush(errorMessage);
-            } else {
-                FileRequestMessage fileRequestMessage = new FileRequestMessage();
-                fileRequestMessage.setLogin(login);
-                fileRequestMessage.setFilePath(filePath);
-                ctx.writeAndFlush(fileRequestMessage);
-                LOGGER.info("File request sent to user " + login + " to upload file " + filePath.toString() + ". ID: " + ctx.channel().id());
-            }
+            FileRequestMessage fileRequestMessage = new FileRequestMessage();
+            fileRequestMessage.setLogin(login);
+            fileRequestMessage.setFilePath(filePath);
+            ctx.writeAndFlush(fileRequestMessage);
+            LOGGER.info("File request sent to user " + login + " to upload file " + filePath.toString() + ". ID: " + ctx.channel().id());
         }
 
         if (msg instanceof FileMessage) {

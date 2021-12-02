@@ -26,7 +26,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
 
-        //TODO файл с таким именем уже существует
         if (msg instanceof FileMessage) {
             FileMessage message = (FileMessage) msg;
             String login = message.getLogin();
@@ -95,9 +94,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<Message> {
             FileErrorMessage message = (FileErrorMessage) msg;
             if (message.isDeleteError()) {
                 System.out.println("Failed to delete file.");
-            }
-            if (message.isAlreadyExists()) {
-                System.out.println("File is already exists.");
             }
         }
 
