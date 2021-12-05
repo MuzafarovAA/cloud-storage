@@ -148,7 +148,7 @@ public class ClientApp extends Application {
         Path path = Path.of("local-storage/" + login);
         if (!Files.exists(path)) {
             try {
-                Files.createDirectory(path);
+                Files.createDirectories(path);
             } catch (NoSuchFileException e) {
                 System.out.println("no such file");
             } catch (IOException e) {
