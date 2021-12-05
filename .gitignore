@@ -17,3 +17,4 @@ target/
 .mvn
 /server/cloud-storage/
 /client/local-storage/
+/server/logs/
