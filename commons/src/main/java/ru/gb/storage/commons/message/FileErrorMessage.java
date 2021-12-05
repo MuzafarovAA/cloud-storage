@@ -1,6 +1,6 @@
 package ru.gb.storage.commons.message;
 
-public class FileErrorMessage extends Message{
+public class FileErrorMessage extends Message {
     private boolean deleteError;
 
     public boolean isDeleteError() {
@@ -10,4 +10,5 @@ public class FileErrorMessage extends Message{
     public void setDeleteError(boolean deleteError) {
         this.deleteError = deleteError;
     }
+
 }

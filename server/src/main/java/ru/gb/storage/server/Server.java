@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger;
 import ru.gb.storage.commons.handler.JsonDecoder;
 import ru.gb.storage.commons.handler.JsonEncoder;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Server {
 
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
@@ -24,8 +27,9 @@ public class Server {
     }
 
     private void start(int port) {
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
+        ExecutorService threadPool = Executors.newCachedThreadPool();
 
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -35,18 +39,16 @@ public class Server {
                         @Override
                         protected void initChannel(NioSocketChannel channel) throws Exception {
                             channel.pipeline().addLast(
-                                    new LengthFieldBasedFrameDecoder(1024 * 1024,0,3,0,3),
+                                    new LengthFieldBasedFrameDecoder(1024 * 1024, 0, 3, 0, 3),
                                     new LengthFieldPrepender(3),
                                     new JsonDecoder(),
                                     new JsonEncoder(),
-                                    new ServerHandler()
+                                    new ServerHandler(threadPool)
                             );
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
-
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-//            System.out.println("Server started.");
             LOGGER.info("Server started");
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
