@@ -12,12 +12,12 @@ public class AuthController {
     private Alert alert;
     private ClientApp clientApp;
     @FXML
-    public TextField loginField;
+    private TextField loginField;
     @FXML
-    public PasswordField passwordField;
+    private PasswordField passwordField;
 
     @FXML
-    public void executeReg(ActionEvent actionEvent) {
+    private void executeReg(ActionEvent actionEvent) {
         String login = loginField.getText();
         String password = passwordField.getText();
         if (login == null || login.isBlank()) {
@@ -32,7 +32,7 @@ public class AuthController {
     }
 
     @FXML
-    public void executeAuth(ActionEvent actionEvent) {
+    private void executeAuth(ActionEvent actionEvent) {
         String login = loginField.getText();
         String password = passwordField.getText();
         if (login == null || login.isBlank()) {
@@ -46,7 +46,7 @@ public class AuthController {
         }
     }
 
-    public void initClientApp(ClientApp clientApp) {
+    void initClientApp(ClientApp clientApp) {
         this.clientApp = clientApp;
     }
 

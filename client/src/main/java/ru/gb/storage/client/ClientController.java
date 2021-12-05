@@ -15,26 +15,27 @@ import java.util.Optional;
 public class ClientController {
 
     @FXML
-    public ListView localStorageListView;
+    private ListView localStorageListView;
     @FXML
-    public Button deleteLocalFileButton;
+    private Button deleteLocalFileButton;
     @FXML
-    public Button uploadFromLocalFileButton;
+    private Button uploadFromLocalFileButton;
     @FXML
-    public Button updateLocalFileListButton;
+    private Button updateLocalFileListButton;
     @FXML
-    public ListView cloudStorageListView;
+    private ListView cloudStorageListView;
     @FXML
-    public Button downloadStorageFileButton;
+    private Button downloadStorageFileButton;
     @FXML
-    public Button deleteStorageFileButton;
+    private Button deleteStorageFileButton;
     @FXML
-    public Button updateStorageFileListButton;
+    private Button updateStorageFileListButton;
     private ClientApp clientApp;
     private String login;
     private Alert alert;
 
-    public void uploadFromLocalFile(ActionEvent actionEvent) {
+    @FXML
+    private void uploadFromLocalFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(localStorageListView);
         if (isFileSelected(fileName)) {
             if (cloudStorageListView.getItems().contains(fileName)) {
@@ -49,11 +50,13 @@ public class ClientController {
         }
     }
 
-    public void updateLocalFileList(ActionEvent actionEvent) {
+    @FXML
+    private void updateLocalFileList(ActionEvent actionEvent) {
         clientApp.updateLocalFiles(login);
     }
 
-    public void downloadStorageFile(ActionEvent actionEvent) {
+    @FXML
+    private void downloadStorageFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(cloudStorageListView);
         if (isFileSelected(fileName)) {
             if (localStorageListView.getItems().contains(fileName)) {
@@ -68,14 +71,16 @@ public class ClientController {
         }
     }
 
-    public void deleteLocalFile(ActionEvent actionEvent) {
+    @FXML
+    private void deleteLocalFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(localStorageListView);
         if (isFileSelected(fileName)) {
             clientApp.deleteLocalFile(login, fileName);
         }
     }
 
-    public void deleteStorageFile(ActionEvent actionEvent) {
+    @FXML
+    private void deleteStorageFile(ActionEvent actionEvent) {
         String fileName = getSelectedFileNameFormatted(cloudStorageListView);
         if (isFileSelected(fileName)) {
             clientApp.sendDeleteRequest(login, fileName);
@@ -99,23 +104,24 @@ public class ClientController {
         } else return true;
     }
 
-    public void updateStorageFileList(ActionEvent actionEvent) {
+    @FXML
+    private void updateStorageFileList(ActionEvent actionEvent) {
         clientApp.sendUpdateRequest(login);
     }
 
-    public void setLocalStorageListView(List<String> files) {
+    void setLocalStorageListView(List<String> files) {
         Platform.runLater(() -> localStorageListView.setItems(FXCollections.observableList(files)));
     }
 
-    public void setCloudStorageListView(List<String> files) {
+    void setCloudStorageListView(List<String> files) {
         Platform.runLater(() -> cloudStorageListView.setItems(FXCollections.observableList(files)));
     }
 
-    public void initClientApp(ClientApp clientApp) {
+    void initClientApp(ClientApp clientApp) {
         this.clientApp = clientApp;
     }
 
-    public void initLogin(String login) {
+    void initLogin(String login) {
         this.login = login;
     }
 }
