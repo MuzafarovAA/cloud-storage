@@ -241,7 +241,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
         Path path = Path.of("server/cloud-storage/" + login);
         if (!Files.exists(path)) {
             try {
-                Files.createDirectory(path);
+                Files.createDirectories(path);
             } catch (IOException e) {
                 LOGGER.error("IOException while creating directory at cloud storage: " + path);
                 e.printStackTrace();
