@@ -5,7 +5,7 @@
 `mvn clean install`
 
 ## Запуск сервера
-src/main/java/ru/gb/storage/server/Server.java
+maven - server -> Plugins -> spring-boot -> spring-boot:run
 
 ## Запуск UI для клиентской части
 maven - client -> Plugins -> javafx -> javafx:run
