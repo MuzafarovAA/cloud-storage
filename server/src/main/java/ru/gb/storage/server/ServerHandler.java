@@ -110,7 +110,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
             String login = message.getLogin();
             String fileName = message.getFileName();
             LOGGER.info("Received new FileMessage from user: " + login + ". ID: " + ctx.channel().id());
-            Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
+            Path path = Paths.get("cloud-storage/" + login + "/" + fileName);
             try (RandomAccessFile randomAccessFile = new RandomAccessFile(String.valueOf(path), "rw")) {
                 randomAccessFile.seek(message.getStartPosition());
                 randomAccessFile.write(message.getContent());
@@ -174,7 +174,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
     }
 
     private boolean downloadFile(String login, String fileName, ChannelHandlerContext ctx) {
-        Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
+        Path path = Paths.get("cloud-storage/" + login + "/" + fileName);
         if (Files.exists(path)) {
             executor.execute(() -> {
 
@@ -221,7 +221,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
     }
 
     private boolean deleteFile(String login, String fileName) {
-        Path path = Paths.get("server/cloud-storage/" + login + "/" + fileName);
+        Path path = Paths.get("cloud-storage/" + login + "/" + fileName);
         try {
             Files.delete(path);
             return true;
@@ -238,7 +238,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Message> {
 
     private List<String> getFileList(String login) {
         List<String> files = new ArrayList<>();
-        Path path = Path.of("server/cloud-storage/" + login);
+        Path path = Path.of("cloud-storage/" + login);
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
